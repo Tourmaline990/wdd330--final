@@ -1,0 +1,347 @@
+[
+  {
+    "id": 1,
+    "title": "Shoes for Every Occasion",
+    "subtitle": "Step Into Comfort and Style.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/01.webp",
+    "alt": "Stylish shoes promotion featuring modern footwear.",
+    "theme": "cream",
+    "priority": 1,
+    "filter": {
+      "categories": ["mens-shoes", "womens-shoes"]
+    }
+  },
+  {
+    "id": 2,
+    "title": "Redefine Your Space",
+    "subtitle": "Transform Your Home With Beautiful Designs.",
+    "discount": "50% OFF",
+    "src": "/images/promotions/02.webp",
+    "alt": "Modern furniture and home decoration promotion.",
+    "theme": "olive",
+    "priority": 1,
+    "filter": {
+      "categories": ["furniture", "home-decoration"]
+    }
+  },
+  {
+    "id": 3,
+    "title": "Cook Like a Chef",
+    "subtitle": "Premium Essentials For Your Kitchen.",
+    "discount": "30% OFF",
+    "src": "/images/promotions/03.webp",
+    "alt": "Kitchen accessories promotion.",
+    "theme": "charcoal",
+    "priority": 2,
+    "filter": {
+      "categories": ["kitchen-accessories"]
+    }
+  },
+  {
+    "id": 4,
+    "title": "Beauty That Speaks",
+    "subtitle": "Discover Your Perfect Glow.",
+    "discount": "30% OFF",
+    "src": "/images/promotions/04.webp",
+    "alt": "Beauty and skincare products promotion.",
+    "theme": "rose",
+    "priority": 2,
+    "filter": {
+      "categories": ["beauty", "skin-care", "fragrances"]
+    }
+  },
+  {
+    "id": 5,
+    "title": "Smart Living Starts Here",
+    "subtitle": "Upgrade Your Everyday Technology.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/05.webp",
+    "alt": "Smartphones tablets and accessories promotion.",
+    "theme": "blue",
+    "priority": 1,
+    "filter": {
+      "categories": ["smartphones", "tablets", "mobile-accessories"]
+    }
+  },
+  {
+    "id": 6,
+    "title": "Power Your Productivity",
+    "subtitle": "Work Faster. Create Better.",
+    "discount": "20% OFF",
+    "src": "/images/promotions/06.webp",
+    "alt": "Laptop technology promotion.",
+    "theme": "indigo",
+    "priority": 3,
+    "filter": {
+      "categories": ["laptops"]
+    }
+  },
+  {
+    "id": 7,
+    "title": "Luxury On Your Wrist",
+    "subtitle": "Timeless Style For Every Moment.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/07.webp",
+    "alt": "Luxury watches promotion.",
+    "theme": "black",
+    "priority": 3,
+    "filter": {
+      "categories": ["mens-watches", "womens-watches"]
+    }
+  },
+  {
+    "id": 8,
+    "title": "Complete Your Look",
+    "subtitle": "Accessories That Define You.",
+    "discount": "20% OFF",
+    "src": "/images/promotions/08.webp",
+    "alt": "Fashion accessories promotion featuring bags jewellery and sunglasses.",
+    "theme": "gold",
+    "priority": 2,
+    "filter": {
+      "categories": ["womens-bags", "womens-jewellery", "sunglasses"]
+    }
+  },
+  {
+    "id": 9,
+    "title": "Fashion Without Limits",
+    "subtitle": "Fresh Styles For Every Personality.",
+    "discount": "35% OFF",
+    "src": "/images/promotions/09.webp",
+    "alt": "Fashion clothing promotion.",
+    "theme": "beige",
+    "priority": 2,
+    "filter": {
+      "categories": ["mens-shirts", "tops", "womens-dresses"]
+    }
+  },
+  {
+    "id": 10,
+    "title": "Level Up Your Fitness",
+    "subtitle": "Gear For A Stronger Lifestyle.",
+    "discount": "35% OFF",
+    "src": "/images/promotions/10.webp",
+    "alt": "Sports and fitness accessories promotion.",
+    "theme": "teal",
+    "priority": 3,
+    "filter": {
+      "categories": ["sports-accessories"]
+    }
+  },
+  {
+    "id": 11,
+    "title": "Fresh Everyday Essentials",
+    "subtitle": "Everything Your Home Needs.",
+    "discount": "15% OFF",
+    "src": "/images/promotions/11.webp",
+    "alt": "Groceries promotion.",
+    "theme": "green",
+    "priority": 4,
+    "filter": {
+      "categories": ["groceries"]
+    }
+  },
+  {
+    "id": 12,
+    "title": "Ride With Confidence",
+    "subtitle": "Parts And Vehicles For Every Journey.",
+    "discount": "30% OFF",
+    "src": "/images/promotions/12.webp",
+    "alt": "Vehicle and motorcycle promotion.",
+    "theme": "graphite",
+    "priority": 4,
+    "filter": {
+      "categories": ["vehicle", "motorcycle"]
+    }
+  },
+  {
+    "id": 13,
+    "title": "Weekend Essentials",
+    "subtitle": "Discover Products Made For You.",
+    "discount": "20% OFF",
+    "src": "/images/promotions/13.webp",
+    "alt": "Mixed product promotion.",
+    "theme": "cyan",
+    "priority": 5,
+    "filter": {
+      "categories": ["groceries", "beauty", "mobile-accessories"]
+    }
+  },
+  {
+    "id": 14,
+    "title": "Premium Picks",
+    "subtitle": "Our Most Loved Products.",
+    "discount": "40% OFF",
+    "src": "/images/promotions/14.webp",
+    "alt": "Premium products promotion.",
+    "theme": "purple",
+    "priority": 5,
+    "filter": {
+      "categories": ["womens-jewellery", "womens-watches", "mens-watches"]
+    }
+  },
+  {
+    "id": 15,
+    "title": "Upgrade Your Lifestyle",
+    "subtitle": "Better Products. Better Living.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/15.webp",
+    "alt": "Lifestyle shopping promotion.",
+    "theme": "warm",
+    "priority": 5,
+    "filter": {
+      "categories": ["furniture", "beauty", "laptops"]
+    }
+  },
+  {
+    "id": 16,
+    "title": "Tech Essentials",
+    "subtitle": "Everything You Need to Stay Connected.",
+    "discount": "20% OFF",
+    "src": "/images/promotions/16.webp",
+    "alt": "Smartphones, tablets and mobile accessories promotion.",
+    "theme": "navy",
+    "priority": 2,
+    "filter": {
+      "categories": ["smartphones", "tablets", "mobile-accessories"]
+    }
+  },
+  {
+    "id": 17,
+    "title": "Office & Study",
+    "subtitle": "Power Through Every Task.",
+    "discount": "15% OFF",
+    "src": "/images/promotions/17.webp",
+    "alt": "Laptop and productivity devices promotion.",
+    "theme": "slate",
+    "priority": 3,
+    "filter": {
+      "categories": ["laptops", "tablets"]
+    }
+  },
+  {
+    "id": 18,
+    "title": "Refresh Your Wardrobe",
+    "subtitle": "Fresh Fits for Every Occasion.",
+    "discount": "35% OFF",
+    "src": "/images/promotions/18.webp",
+    "alt": "Men's shirts, tops and dresses promotion.",
+    "theme": "sand",
+    "priority": 2,
+    "filter": {
+      "categories": ["mens-shirts", "tops", "womens-dresses"]
+    }
+  },
+  {
+    "id": 19,
+    "title": "Elegant Accessories",
+    "subtitle": "Complete Every Outfit Beautifully.",
+    "discount": "30% OFF",
+    "src": "/images/promotions/19.webp",
+    "alt": "Luxury handbags, jewellery and watches promotion.",
+    "theme": "champagne",
+    "priority": 3,
+    "filter": {
+      "categories": [
+        "womens-bags",
+        "womens-jewellery",
+        "womens-watches",
+        "mens-watches"
+      ]
+    }
+  },
+  {
+    "id": 20,
+    "title": "Weekend Adventure",
+    "subtitle": "Gear Up and Get Moving.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/20.webp",
+    "alt": "Sports accessories and motorcycle equipment promotion.",
+    "theme": "forest",
+    "priority": 4,
+    "filter": {
+      "categories": ["sports-accessories", "motorcycle"]
+    }
+  },
+  {
+    "id": 21,
+    "title": "Beauty Favorites",
+    "subtitle": "Glow With Every Purchase.",
+    "discount": "25% OFF",
+    "src": "/images/promotions/21.webp",
+    "alt": "Beauty, skincare and fragrance products promotion.",
+    "theme": "blush",
+    "priority": 3,
+    "filter": {
+      "categories": ["beauty", "skin-care", "fragrances"]
+    }
+  },
+  {
+    "id": 22,
+    "title": "Home Refresh",
+    "subtitle": "Modern Comfort Starts Here.",
+    "discount": "40% OFF",
+    "src": "/images/promotions/22.webp",
+    "alt": "Modern furniture and home decoration promotion.",
+    "theme": "sage",
+    "priority": 2,
+    "filter": {
+      "categories": ["furniture", "home-decoration"]
+    }
+  },
+  {
+    "id": 23,
+    "title": "Kitchen Upgrade",
+    "subtitle": "Cook Smarter Every Day.",
+    "discount": "20% OFF",
+    "src": "/images/promotions/23.webp",
+    "alt": "Modern kitchen accessories promotion.",
+    "theme": "charcoal",
+    "priority": 3,
+    "filter": {
+      "categories": ["kitchen-accessories"]
+    }
+  },
+  {
+    "id": 24,
+    "title": "Today's Top Deals",
+    "subtitle": "Handpicked Savings Across Categories.",
+    "discount": "UP TO 60% OFF",
+    "src": "/images/promotions/24.webp",
+    "alt": "Mixed shopping deals promotion.",
+    "theme": "ruby",
+    "priority": 1,
+    "filter": {
+      "categories": [
+        "smartphones",
+        "beauty",
+        "furniture",
+        "mens-shoes",
+        "womens-shoes",
+        "groceries"
+      ]
+    }
+  },
+  {
+    "id": 25,
+    "title": "Editor's Picks",
+    "subtitle": "Our Favorite Finds This Week.",
+    "discount": "SPECIAL OFFERS",
+    "src": "/images/promotions/25.webp",
+    "alt": "Curated collection of featured products.",
+    "theme": "midnight",
+    "priority": 1,
+    "filter": {
+      "categories": [
+        "smartphones",
+        "laptops",
+        "beauty",
+        "furniture",
+        "womens-jewellery",
+        "mens-watches",
+        "kitchen-accessories"
+      ]
+    }
+  }
+]

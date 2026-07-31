@@ -1,0 +1,36 @@
+export default class DataStorage{
+    init(){
+       this.set("user",{})
+       this.set("login",{})
+       this.set("orderhistory",[])
+       this.set("viewed",[])
+       this.set("searched",[])
+       this.set("cart",[]);
+       this.set("wishlist",[])
+    }
+    set(key,value){
+      localStorage.setItem(key,JSON.stringify(value))
+    }
+    Get(key,status=false){
+     let val = localStorage.getItem(key)
+      val = JSON.parse(val)
+      if(status){
+         if(val === null){
+            return false
+         }
+         else{
+          return true
+         }
+      }
+      return val
+    }
+    clear(key,value = null, clear=false){
+      if(clear){
+       localStorage.removeItem(key)
+      }
+      if(value !== null){
+          this.set(key,value)
+      }
+      
+    }
+}

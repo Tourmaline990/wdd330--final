@@ -1,0 +1,104 @@
+[
+  {
+    "id": 1,
+    "brand": "Essence",
+    "src": "/images/brands/brand-01.webp",
+    "alt": "Essence"
+  },
+  {
+    "id": 2,
+    "brand": "Glamour Beauty",
+    "src": "/images/brands/brand-02.webp",
+    "alt": "Glamour Beauty"
+  },
+  {
+    "id": 3,
+    "brand": "Velvet Touch",
+    "src": "/images/brands/brand-03.webp",
+    "alt": "Velvet Touch"
+  },
+  {
+    "id": 4,
+    "brand": "Chic Cosmetics",
+    "src": "/images/brands/brand-04.webp",
+    "alt": "Chic Cosmetics"
+  },
+  {
+    "id": 5,
+    "brand": "Nail Couture",
+    "src": "/images/brands/brand-05.webp",
+    "alt": "Nail Couture"
+  },
+  {
+    "id": 6,
+    "brand": "Calvin Klein",
+    "src": "/images/brands/brand-06.webp",
+    "alt": "Calvin Klein"
+  },
+  {
+    "id": 7,
+    "brand": "Chanel",
+    "src": "/images/brands/brand-07.webp",
+    "alt": "Chanel"
+  },
+  {
+    "id": 8,
+    "brand": "Dior",
+    "src": "/images/brands/brand-08.webp",
+    "alt": "Dior"
+  },
+  {
+    "id": 9,
+    "brand": "Dolce & Gabbana",
+    "src": "/images/brands/brand-09.webp",
+    "alt": "Dolce & Gabbana"
+  },
+  {
+    "id": 10,
+    "brand": "Gucci",
+    "src": "/images/brands/brand-10.webp",
+    "alt": "Gucci"
+  },
+  {
+    "id": 11,
+    "brand": "Annibale Colombo",
+    "src": "/images/brands/brand-11.webp",
+    "alt": "Annibale Colombo"
+  },
+  {
+    "id": 12,
+    "brand": "Apple",
+    "src": "/images/brands/brand-12.webp",
+    "alt": "Apple"
+  },
+  {
+    "id": 13,
+    "brand": "Nike",
+    "src": "/images/brands/brand-13.webp",
+    "alt": "Nike"
+  },
+  {
+    "id": 14,
+    "brand": "Rolex",
+    "src": "/images/brands/brand-14.webp",
+    "alt": "Rolex"
+  },
+  {
+    "id": 15,
+    "brand": "Amazon",
+    "src": "/images/brands/brand-15.webp",
+    "alt": "Amazon"
+  },
+  {
+    "id": 16,
+    "brand": "Kawasaki",
+    "src": "/images/brands/brand-16.webp",
+    "alt": "Kawasaki"
+  },
+  {
+    "id": 17,
+    "brand": "Samsung",
+    "src": "/images/brands/brand-17.webp",
+    "alt": "Samsung"
+  }
+]
