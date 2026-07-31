@@ -13,7 +13,8 @@ import { PromotionTemplate } from "../Templates/promotion";
 import { CategoryTemplate } from "../Templates/promotion";
 import { ArrayPrep } from "./utility.mjs";
 
-// Partials Display
+async function Init(){
+  // Partials Display
 LoadPartials("../Templates/partials/footer.html", "footer");
 LoadPartials("../Templates/partials/head.html", "head", false);
 LoadPartials("../Templates/partials/header.html", "header", false);
@@ -117,3 +118,6 @@ Render(limited, limitedStocks, "beforeend");
 
 // brands store
 brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 10);
+
+}
+Init()

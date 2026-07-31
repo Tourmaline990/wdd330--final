@@ -9,7 +9,10 @@ import Api from "./api.mjs";
 import { ArrayPrep } from "./utility.mjs";
 import { Render } from "./utility.mjs";
 
-// partials display
+
+
+async function Init(){
+   // partials display
 LoadPartials("../Templates/partials/footer.html", "footer");
 LoadPartials("../Templates/partials/head.html", "head", false);
 LoadPartials("../Templates/partials/header.html", "header", false);
@@ -69,3 +72,6 @@ if (queryVal.length === 1) {
 // q=${searchValue} productname
 //q=brand e.g gucci
 // ['vehicle,motorcycle,']
+
+}
+Init()

@@ -6,7 +6,8 @@ import { MapTemplate } from "./utility.mjs";
 import { ProductDetailsTemplate } from "../Templates/productTemplate";
 import { Render } from "./utility.mjs";
 
-// partials display
+async function Init(){
+  // partials display
 LoadPartials("../Templates/partials/footer.html", "footer");
 LoadPartials("../Templates/partials/head.html", "head", false);
 LoadPartials("../Templates/partials/header.html", "header", false);
@@ -36,3 +37,6 @@ if (!Number.isNaN(Number(query))) {
   product = MapTemplate(product.products, ProductDetailsTemplate);
   Render(product, container, "beforeend");
 }
+
+}
+Init()
