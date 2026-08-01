@@ -2,7 +2,7 @@ import { LoadPartials } from "./utility.mjs";
 import {
   BriefProductDisplay,
   ProductDetailsTemplate,
-} from "../public/Templates/productTemplate";
+} from "../js/templates/productTemplate";
 import { GetUrlParams } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
@@ -13,9 +13,9 @@ import { Render } from "./utility.mjs";
 
 async function Init(){
    // partials display
-LoadPartials("../public/Templates/partials/footer.html", "footer");
-LoadPartials("../public/Templates/partials/head.html", "head", false);
-LoadPartials("../public/Templates/partials/header.html", "header", false);
+LoadPartials("../public/partials/footer.html", "footer");
+LoadPartials("../public/partials/head.html", "head", false);
+LoadPartials("../public/partials/header.html", "header", false);
 
 // Dom Selection
 const container = document.querySelector("#container");

@@ -1,23 +1,23 @@
 // Imports
 import { LoadPartials, Randomize, Render } from "./utility.mjs";
-import { ProductDetailsTemplate } from "../public/Templates/productTemplate";
+import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { MapTemplate } from "./utility.mjs";
-import FetchJson from "../js/fetch-json.mjs";
+import FetchJson from "/js/fetch-json.mjs";
 import Api from "./api.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import { LimitArray } from "./utility.mjs";
-import { BrandTemplate } from "../public/Templates/brandTemplate";
-import { BriefProductDisplay } from "../public/Templates/productTemplate";
-import { PromotionTemplate } from "../public/Templates/promotion";
-import { CategoryTemplate } from "../public/Templates/promotion";
+import { BrandTemplate } from "../js/templates/brandTemplate";
+import { BriefProductDisplay } from "../js/templates/productTemplate";
+import { PromotionTemplate } from "../js/templates/promotion";
+import { CategoryTemplate } from "../js/templates/promotion";
 import { ArrayPrep } from "./utility.mjs";
 
 async function Init(){
   // Partials Display
-LoadPartials("../public/Templates/partials/footer.html", "footer");
-LoadPartials("../public/Templates/partials/head.html", "head", false);
-LoadPartials("../public/Templates/partials/header.html", "header", false);
+LoadPartials("../public/partials/footer.html", "footer");
+LoadPartials("../public/partials/head.html", "head", false);
+LoadPartials("../public/partials/header.html", "header", false);
 
 // env's
 const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
