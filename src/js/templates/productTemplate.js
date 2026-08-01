@@ -1,5 +1,5 @@
 export function ProductDetailsTemplate(product) {
-  return `<a href="../productpage/index.html?q=${product.id}"> 
+  return `<a href="../productPage/index.html?q=${product.id}"> 
         <div class="imageContainer"> 
            ${ItemsLoop(product.images).join("")}
         </div>
@@ -19,7 +19,7 @@ export function ProductDetailsTemplate(product) {
 }
 
 export function BriefProductDisplay(product) {
-  return `<a href="../productpage/index.html?q=${product.id}"> 
+  return `<a href="../productPage/index.html?q=${product.id}"> 
     <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
      <h1> ${product.title} </h1>
      <p> ${product.price} </p>
