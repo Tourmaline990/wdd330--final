@@ -15,9 +15,9 @@ import { ArrayPrep } from "./utility.mjs";
 
 async function Init(){
   // Partials Display
-LoadPartials("../public/partials/footer.html", "footer");
-LoadPartials("../public/partials/head.html", "head", false);
-LoadPartials("../public/partials/header.html", "header", false);
+LoadPartials("/partials/footer.html", "footer");
+LoadPartials("/partials/head.html", "head", false);
+LoadPartials("/partials/header.html", "header", false);
 
 // env's
 const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
