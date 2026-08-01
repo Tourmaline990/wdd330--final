@@ -3,14 +3,14 @@ import { LoadPartials } from "./utility.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import Api from "./api.mjs";
 import { MapTemplate } from "./utility.mjs";
-import { ProductDetailsTemplate } from "../Templates/productTemplate";
+import { ProductDetailsTemplate } from "../public/Templates/productTemplate";
 import { Render } from "./utility.mjs";
 
 async function Init(){
   // partials display
-LoadPartials("../Templates/partials/footer.html", "footer");
-LoadPartials("../Templates/partials/head.html", "head", false);
-LoadPartials("../Templates/partials/header.html", "header", false);
+LoadPartials("../public/Templates/partials/footer.html", "footer");
+LoadPartials("../public/Templates/partials/head.html", "head", false);
+LoadPartials("../public/Templates/partials/header.html", "header", false);
 
 //env's
 const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
