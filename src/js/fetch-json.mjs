@@ -11,6 +11,7 @@ export default class FetchJson{
    async LoadData(){
      const data = await fetch(this.path)
      if(!data.ok){
+      console.log(data.text())
        throw new Error("An error occurred.")
      }
      const response = await data.json()
