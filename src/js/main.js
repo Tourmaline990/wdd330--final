@@ -2,7 +2,7 @@
 import { LoadPartials, Randomize, Render } from "./utility.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { MapTemplate } from "./utility.mjs";
-import FetchJson from "/js/fetch-json.mjs";
+import FetchJson from "../js/fetch-json.mjs";
 import Api from "./api.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
