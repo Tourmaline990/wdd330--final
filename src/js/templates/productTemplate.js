@@ -15,6 +15,7 @@ export function ProductDetailsTemplate(product) {
            </div>
         <p>${product.shippingInformation}</p>
         <p>${product.warrantyInformation}</p>
+        <button hidden class="holdsId">${product.id}</button>
    </a>`;
 }
 
