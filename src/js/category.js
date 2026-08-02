@@ -1,3 +1,5 @@
+
+// imports
 import { LoadPartials } from "./utility.mjs";
 import {
   BriefProductDisplay,
@@ -8,7 +10,7 @@ import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
 import { ArrayPrep } from "./utility.mjs";
 import { Render } from "./utility.mjs";
-
+import { productDetails } from "./utility.mjs";
 
 
 async function Init(){
@@ -30,28 +32,48 @@ const dummyjson = new Api(dummyJsonUrl);
 const data = await dummyjson.GetAllProducts();
 const brands = await dummyjson.GetBrands();
 
-const query = GetUrlParams("q", true).join();
 
+const query = GetUrlParams("q", true).join();
 let queryVal = query.split(",");
 
 if (queryVal.length === 1) {
-  for (let i = 0; i < queryVal.length; i++) {
-    if (storage.Get(queryVal[i], true)) {
-      const dataIds = await dummyjson.GetProductsById(storage.Get(queryVal[i]));
-      let returnval = ArrayPrep(dataIds, ProductDetailsTemplate, 8);
+    let data;
+
+    if (storage.Get(queryVal[0], true)){
+        if(queryVal[0] === "searched"){
+            data = productDetails(storage.Get(queryVal[0]),dummyjson.SearchByProductName,true)
+        }
+
+        else{
+           data = await dummyjson.GetProductsById(storage.Get(queryVal[0]));
+        }
+      let returnval = ArrayPrep(data, ProductDetailsTemplate, 8);
       Render(returnval, container, "beforeend");
-    } else if (brands.includes(queryVal[i])) {
+
+    } 
+
+    else if (brands.includes(queryVal[0])) {
       let brandData = data.products.filter((item) => {
         return item.brand === queryVal[i];
       });
       brandData = ArrayPrep(brandData, BriefProductDisplay, 0);
-      highlight.innerHTML = ` ${queryVal[i]} store`;
+      highlight.innerHTML = ` ${queryVal[0]} store`;
       Render(brandData, container, "beforeend", true);
-    } else {
+
+    } 
+    else if(queryVal[0] === "random" || queryVal[0] === "world") {
       let rands = ArrayPrep(data.products, BriefProductDisplay, 18);
       Render(rands, container, "beforeend", true);
     }
-  }
+    else{
+       let u = await dummyjson.SearchByProductName(queryVal[0])
+       if(u.products.length === 0 || u.products === undefined){
+            window.location.href = '../error/error.html'
+       }
+       u = ArrayPrep(u.products,BriefProductDisplay,0)
+       Render(u,container,"beforeend",true)
+    }
+  
 } else if (queryVal.length > 1) {
   queryVal = queryVal.filter((item) => item.trim() !== "");
   let newArr = [];
@@ -64,14 +86,16 @@ if (queryVal.length === 1) {
   Render(forDisplay, container, "beforeend", true);
 }
 
-// querystrings
-// q=searched
-// q=world
-//q=viewed
-// q=randoms
-// q=${searchValue} productname
-//q=brand e.g gucci
-// ['vehicle,motorcycle,']
 
+
+// add viewed
+container.addEventListener("click",(event)=>{
+  let domEl = event.target.parentElement
+  let El = domEl.querySelector(".holdsId")
+  let Eldata = El.textContent
+  let v = storage.Get("viewed")
+  v.push(Eldata)
+  storage.set("viewed",v)
+})
 }
 Init()

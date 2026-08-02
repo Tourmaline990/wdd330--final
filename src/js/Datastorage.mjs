@@ -31,6 +31,9 @@ export default class DataStorage{
       if(value !== null){
           this.set(key,value)
       }
-      
+    }
+    IsInit(){
+      let keys = ["user","login","orderhistory","viewed","searched","cart","wishlist"]
+      return keys.every(k => !! this.Get(k,true))
     }
 }

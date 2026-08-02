@@ -73,12 +73,12 @@ export default class Api{
       return fil(response.products)
    } 
    async GetProductsById(idArr){
-      let data = await this.GetAllProducts()
-        data = data.products.filter((item)=>{
-            idArr.includes(item.id)
-        })
-        console.log(data)
-        return data
+    let newArr = []
+      for (let i = 0; i < idArr.length; i++) {
+        console.log(idArr[i])
+          newArr.push(await this.SearchById(idArr[i]))
+      }
+      return newArr
    }  
    
 }

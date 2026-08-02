@@ -22,21 +22,20 @@ export function Randomize(dataArr) {
    const newArr = []
    let randIndexes = []
    const randomfunc =  arr => Math.floor(Math.random() * arr.length);
+
    for (let i = 0; i < dataArr.length; i++) {
       let randIndex = randomfunc(dataArr);
        randIndexes[i] = randIndex
    }
+
    for (let x = 0;  x < randIndexes.length; x++) {
-      let occured =  randIndexes.filter(item => item === randIndexes[x])
-      if(occured.length > 1){
-           for (let j = 0; j < occured.length; j++) {
-                randIndexes[x] = randomfunc(dataArr)
-           }
+      let exists = randIndexes.find( el => el === randIndexes[x])
+      if(exists || exists !== undefined){
+            randIndexes[x] = randomfunc(dataArr)
       }
    }
    randIndexes.forEach(val => newArr.push(dataArr[val]))
    return newArr
-
 }
 
 export function Render(stringdata,DomElement,position,clear=false,isArr=true){
@@ -80,4 +79,16 @@ export function ArrayPrep(arr,template,limit=0){
     }
     array = MapTemplate(array,template)
     return array
+}
+export async function productDetails(arr,callback,isSingle=false) {
+   if(isSingle){
+      let productArr = []
+       for (let i = 0; i < arr.length; i++) {
+          let data = await callback(arr[i])
+          productArr.push(data)
+       }
+       return productArr
+   }
+   let ar = await callback(arr)
+   return ar
 }

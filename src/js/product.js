@@ -5,6 +5,7 @@ import Api from "./api.mjs";
 import { MapTemplate } from "./utility.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { Render } from "./utility.mjs";
+import DataStorage from "./Datastorage.mjs";
 
 async function Init(){
   // partials display
@@ -18,6 +19,7 @@ const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
 // initialization
 const dummyjson = new Api(dummyJsonUrl);
 const allProducts = await dummyjson.GetAllProducts();
+const storage = new DataStorage()
 
 // dom
 const container = document.querySelector("#container");
