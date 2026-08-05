@@ -72,13 +72,34 @@ export default class Api{
       const response = await data.json();
       return fil(response.products)
    } 
-   async GetProductsById(idArr){
-    let newArr = []
-      for (let i = 0; i < idArr.length; i++) {
-        console.log(idArr[i])
-          newArr.push(await this.SearchById(idArr[i]))
+   async GetProductsById(idArr,isString = false){
+    if(isString){
+       let t = await Promise.all(
+          idArr.map(async item => {
+             return await this.SearchByProductName(item)  
+        })
+        )
+        let m = t.filter(I=> I.products.length !== 0)
+        m = m.reduce((a,i) => a.concat(i.products[0]),[])
+        let v = []
+        m = m.filter( t => {
+          let f = v.find( u => u.id === t.id)
+          if(f){
+            return
+          }
+          v.push(t)
+          return t
+        })
+        return m
       }
-      return newArr
+         else{
+             let v = await Promise.all(
+              idArr.map( async item => {
+                return await this.SearchById(item)
+              })
+             )
+             return v
+         }
    }  
    
 }

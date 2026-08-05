@@ -7,6 +7,7 @@ export default class DataStorage{
        this.set("searched",[])
        this.set("cart",[]);
        this.set("wishlist",[])
+       this.set("locationRedirect","")
     }
     set(key,value){
       localStorage.setItem(key,JSON.stringify(value))
@@ -35,5 +36,19 @@ export default class DataStorage{
     IsInit(){
       let keys = ["user","login","orderhistory","viewed","searched","cart","wishlist"]
       return keys.every(k => !! this.Get(k,true))
+    }
+    logInCountDown(){
+      let login = this.Get("login")
+      if(login.isLoggedIn === undefined || login.isLoggedIn === null){
+            return;
+      }
+      else{
+         if(Date.now() < login.expiresAt){
+          login.isLoggedIn = true
+          }
+          else{
+             login.isLoggedIn = false
+           }
+      }                        
     }
 }
