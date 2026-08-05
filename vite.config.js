@@ -11,7 +11,8 @@ export default defineConfig({
         // add my new pages here
         main: resolve(__dirname, "src/index.html"),
         category: resolve(__dirname, "src/category/index.html"),
-        product_page: resolve(__dirname, "src/productPage/index.html")
+        product_page: resolve(__dirname, "src/productPage/index.html"),
+        error_page: resolve(__dirname, "src/error/error.html")
         // main: resolve(__dirname, "src/index.html"),
         // cart: resolve(__dirname, "src/cart/index.html"),
         // checkout: resolve(__dirname, "src/checkout/index.html"),
