@@ -19,7 +19,6 @@ export function ProductDetailsTemplate(product) {
    </a>`;
 }
 
-
 export function BriefProductDisplay(product) {
   return ` 
    <a href="../productPage/index.html?q=${product.id}">

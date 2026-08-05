@@ -12,9 +12,8 @@ import { BriefProductDisplay } from "../js/templates/productTemplate";
 import { PromotionTemplate } from "../js/templates/promotion";
 import { CategoryTemplate } from "../js/templates/promotion";
 import { ArrayPrep } from "./utility.mjs";
-import { productDetails } from "./utility.mjs";
 
-async function Init(){
+async function Init() {
   // Partials Display
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
@@ -44,119 +43,117 @@ async function Init(){
   const promotionjson = new FetchJson(promotionPath);
   const storage = new DataStorage();
 
-  if(!storage.IsInit()){
-     storage.init();
+  if (!storage.IsInit()) {
+    storage.init();
+  }
+  storage.logInCountDown();
+
+  //
+  const allProducts = await dummyjson.GetAllProducts();
+  const brandJson = new FetchJson(brandPath);
+
+  // search bar
+  searchIcon.addEventListener("click", () => {
+    SearchBar();
+  });
+  document
+    .querySelector("#inputParent")
+    .addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        SearchBar();
+      }
+    });
+
+  // Promotion
+  await promotionjson.RenderData(promotion, "afterbegin", PromotionTemplate);
+
+  // categories
+  await promotionjson.RenderData(category, "beforeend", CategoryTemplate, 8);
+
+  // last viewed display
+  const viewed = storage.Get("viewed");
+
+  if (viewed === undefined || viewed.length === 0) {
+    contain.querySelector("h1").textContent = "Sponsored Products";
+    contain.querySelector("a").href = "../category/index.html?q=randoms";
+
+    let sponsored = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
+    Render(sponsored, lastViewed, "beforeend");
+  } else {
+    contain.querySelector("h1").textContent = "Last Viewed";
+    contain.querySelector("a").href = "../category/index.html?q=viewed";
+
+    let arr = await dummyjson.GetProductsById(viewed);
+    arr = ArrayPrep(arr, BriefProductDisplay, 8);
+    Render(arr, lastViewed, "beforeend");
   }
 
-const allProducts = await dummyjson.GetAllProducts();
-const brandJson = new FetchJson(brandPath);
+  // last searched display
+  let searched = storage.Get("searched");
 
-// searchBar
+  if (searched.length === 0 || searched === undefined) {
+    contain1.querySelector("h1").textContent = "Deals From Around The World";
+    contain1.querySelector("a").href = `../category/index.html?q=world`;
 
-// form.addEventListener("keydown",(event) => {event.preventDefault()})
-searchIcon.addEventListener("click", SearchBar);
-searchIcon.addEventListener("keydown", SearchBar);
+    let arr = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
+    Render(arr, lastSearched, "Beforeend");
+  } else {
+    contain1.querySelector("h1").textContent = "Last Searched";
+    contain1.querySelector("a").href = "../category/index.html?q=searched";
 
-async function SearchBar() {
-  if (searchInput.value.trim() === "" || searchInput.value === null) {
-    return;
+    let arr = await dummyjson.GetProductsById(searched, true);
+    let m = ArrayPrep(arr, BriefProductDisplay, 8);
+    Render(m, lastSearched, "beforeend");
   }
-  let prod = await dummyjson.SearchByProductName(searchInput.value).products
-   if( prod !== undefined && prod !== null && prod.length !== 0){
-     let f = storage.Get("searched")
-     let check = f.find(a => a === searchInput.value)
-     if(!check  || check === undefined || check === null){
-          f.push(searchInput.value)
-          storage.set("searched",f)
-      }   
-   }
-    window.location.href = `../category/index.html?q=${searchInput.value}`;
-}
 
-// Promotion
-await promotionjson.RenderData(promotion, "afterbegin", PromotionTemplate);
+  // Top Sellers
+  let top = allProducts.products.filter((product) => product.rating >= 4);
+  top = ArrayPrep(top, BriefProductDisplay, 10);
+  Render(top, topSellers, "beforeend");
 
-// categories
-const val = await promotionjson.RenderData(
-  category,
-  "beforeend",
-  CategoryTemplate,
-  8,
-);
+  // limited stocks
+  let limited = allProducts.products.filter((product) => product.stock <= 10);
+  limited = ArrayPrep(limited, BriefProductDisplay, 12);
+  Render(limited, limitedStocks, "beforeend");
 
-// last viewed display
-const viewed = storage.Get("viewed");
+  // brands store
+  brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 10);
 
-if (viewed === undefined || viewed.length === 0) {
+  // add viewed
+  // lastSearched,lastviewed,topsellers,limitedstocks
+  [lastSearched, lastViewed, topSellers, limitedStocks].forEach((el) => {
+    el.addEventListener("click", (event) => {
+      let data = event.target.parentElement;
+      data = data.querySelector(".holdsId");
+      data = data.textContent;
+      let k = storage.Get("viewed");
+      let exists = k.find((e) => e === data);
+      if (exists === undefined || exists === null) {
+        k.push(data);
+      }
+      storage.set("viewed", k);
+    });
+  });
 
-  contain.querySelector("h1").textContent = "Sponsored Products";
-  contain.querySelector("a").href = "../category/index.html?q=randoms";
-
-  let sponsored = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
-  Render(sponsored, lastViewed, "beforeend");
-
-} else {
-  contain.querySelector("h1").textContent = "Last Viewed";
-  contain.querySelector("a").href = "../category/index.html?q=viewed";
-
-  let arr = productDetails(viewed,dummyjson.GetProductsById);
-  arr = ArrayPrep(arr, BriefProductDisplay, 8);
-  Render(arr, lastViewed, "beforeend");
-}
-
-// last searched display
-let searched = storage.Get("searched");
-
-if (searched.length === 0 || searched === undefined) {
-
-  contain1.querySelector("h1").textContent = "Deals From Around The World";
-  contain1.querySelector("a").href = `../category/index.html?q=world`;
-
-  let arr = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
-  Render(arr, lastSearched, "Beforeend");
-
-} else {
-  contain1.querySelector("h1").textContent = "Last Searched";
-  contain1.querySelector("a").href = "../category/index.html?q=searched";
-
-  let arr = productDetails(searched,dummyjson.SearchByProductName,true)
-  let m = ArrayPrep(arr, BriefProductDisplay, 8);
-  Render(m, lastSearched, "beforeend");
-  
-}
-
-// Top Sellers
-let top = allProducts.products.filter((product) => {
-  return product.rating >= 4;
-});
-top = ArrayPrep(top, BriefProductDisplay, 10);
-Render(top, topSellers, "beforeend");
-
-// limited stocks
-let limited = allProducts.products.filter((product) => {
-  return product.stock <= 10;
-});
-limited = ArrayPrep(limited, BriefProductDisplay, 12);
-Render(limited, limitedStocks, "beforeend");
-
-// brands store
-brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 10);
-
-
-// add viewed
-// lastSearched,lastviewed,topsellers,limitedstocks
-[lastSearched,lastViewed,topSellers,limitedStocks].forEach(el => {
-  el.addEventListener("click",(event) => {
-    let data = event.target.parentElement
-    data = data.querySelector(".holdsId")
-    data = data.textContent
-    let k = storage.Get("viewed")
-    let exists = k.find( e => e === data)
-    if(exists === undefined  || exists === null){
-        k.push(data)
+  async function SearchBar() {
+    if (searchInput.value.trim() === "" || !searchInput.value) {
+      return;
     }
-    storage.set("viewed",k)
-  } )
-})
+    let prod = await dummyjson.SearchByProductName(searchInput.value);
+    if (
+      prod.products !== undefined &&
+      prod.products !== null &&
+      prod.products.length !== 0
+    ) {
+      let f = storage.Get("searched");
+      let check = f.find((a) => a === searchInput.value);
+      if (!check || check === undefined || check === null) {
+        f.push(searchInput.value);
+        storage.set("searched", f);
+      }
+    }
+    window.location.href = `../category/index.html?q=${searchInput.value}`;
+  }
 }
-Init()
+
+Init();
