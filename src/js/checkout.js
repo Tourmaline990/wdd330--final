@@ -194,9 +194,7 @@ async function Init() {
     },
     true,
   );
-}
-
-// checkout
+  // checkout
 
 const cart = storage.Get("cart");
 let p_ids = cart.map((c) => c.p_id);
@@ -226,7 +224,13 @@ document.querySelector(`#profile`).addEventListener("click", () => {
     window.location.href = "../user/login.html?log";
   }
 });
+
+
+
+
+}
 Init();
+
 
 function StageEvent(parent, expectedTargetId, callback, targetIsClass = false) {
   if (targetIsClass) {
