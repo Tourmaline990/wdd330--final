@@ -5,11 +5,18 @@ import { LimitArray } from "./utility.mjs";
 
 
 export default class FetchJson{
-   constructor(path){
+   constructor(path,obj={}){
       this.path = path;
+      this.option = obj
    }
    async LoadData(){
-     const data = await fetch(this.path)
+      let data;
+      if(Object.keys(this.option).length === 0){
+        data = await fetch(this.path);
+      }else{
+         data = await fetch(this.path,this.option)
+      }
+      
      if(!data.ok){
       console.log(data.text())
        throw new Error("An error occurred.")

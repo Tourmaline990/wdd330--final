@@ -2,7 +2,6 @@
 import { LoadPartials } from "./utility.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import Api from "./api.mjs";
-import { MapTemplate } from "./utility.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { Render } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
@@ -18,7 +17,6 @@ async function Init() {
 
   // initialization
   const dummyjson = new Api(dummyJsonUrl);
-  const allProducts = await dummyjson.GetAllProducts();
   const storage = new DataStorage();
 
   if (!storage.IsInit()) {
@@ -73,6 +71,14 @@ async function Init() {
 
   closemodal.addEventListener("click", () => {
     modal.close();
+  });
+
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?log";
+    }
   });
 }
 Init();

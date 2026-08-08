@@ -1,12 +1,8 @@
 // Imports
-import { LoadPartials, Randomize, Render } from "./utility.mjs";
-import { ProductDetailsTemplate } from "../js/templates/productTemplate";
-import { MapTemplate } from "./utility.mjs";
+import { LoadPartials,  Render } from "./utility.mjs";
 import FetchJson from "../js/fetch-json.mjs";
 import Api from "./api.mjs";
-import { GetUrlParams } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
-import { LimitArray } from "./utility.mjs";
 import { BrandTemplate } from "../js/templates/brandTemplate";
 import { BriefProductDisplay } from "../js/templates/productTemplate";
 import { PromotionTemplate } from "../js/templates/promotion";
@@ -15,9 +11,10 @@ import { ArrayPrep } from "./utility.mjs";
 
 async function Init() {
   // Partials Display
-  LoadPartials("/partials/footer.html", "footer");
-  LoadPartials("/partials/head.html", "head", false);
-  LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/footer.html", "footer");
+  await LoadPartials("/partials/head.html", "head", false);
+  await LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/search.html", "searchBar", true);
 
   // env's
   const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
@@ -28,8 +25,7 @@ async function Init() {
   const category = document.querySelector("#category");
   const promotion = document.querySelector("#promotions");
   const searchIcon = document.querySelector("#searchIcon");
-  const searchInput = document.querySelector("#search");
-  const form = document.querySelector("#searchform");
+  const searchInput = document.querySelector(".searchinput");
   const lastViewed = document.querySelector("#lastViewed");
   const lastSearched = document.querySelector("#lastSearched");
   const topSellers = document.querySelector("#topSellers");
@@ -64,6 +60,9 @@ async function Init() {
       }
     });
 
+  document
+    .querySelector("#clearInput")
+    .addEventListener("click", () => (searchInput.value = ""));
   // Promotion
   await promotionjson.RenderData(promotion, "afterbegin", PromotionTemplate);
 
@@ -154,6 +153,14 @@ async function Init() {
     }
     window.location.href = `../category/index.html?q=${searchInput.value}`;
   }
+
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "user/login.html?log";
+    }
+  });
 }
 
 Init();

@@ -45,9 +45,11 @@ export default class DataStorage{
       else{
          if(Date.now() < login.expiresAt){
           login.isLoggedIn = true
+          this.set("login",login)
           }
           else{
              login.isLoggedIn = false
+             this.set("login",login)
            }
       }                        
     }

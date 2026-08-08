@@ -14,6 +14,7 @@ export default class Api{
         return await data.json(); 
     } catch (error) {
         console.log(error.message)
+        window.location.href  = '../error/error.html'
     }   
    }
    async GetAllProducts(){
@@ -26,6 +27,7 @@ export default class Api{
         return await data.json(); 
     } catch (error) {
         console.log(error.message)
+        window.location.href  = '../error/error.html'
     }   
    }
    async SearchByProductName(productName){
@@ -38,6 +40,7 @@ export default class Api{
         return await data.json(); 
     } catch (error) {
         console.log(error.message)
+        window.location.href  = '../error/error.html'
     } 
    }
    async SearchById(p_Id){
@@ -50,6 +53,7 @@ export default class Api{
           return await data.json(); 
         } catch (error) {
         console.log(error.message)
+        window.location.href  = '../error/error.html'
     } 
    }
    async GetAllCategories(){

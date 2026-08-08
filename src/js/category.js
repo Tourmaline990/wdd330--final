@@ -105,12 +105,15 @@ async function Init() {
       Render(rands, container, "beforeend", true);
     } else {
       let u = await dummyjson.SearchByProductName(queryVal[0]);
+      let m = ArrayPrep(u.products, BriefProductDisplay);
       if (u.products.length === 0 || u.products === undefined) {
-        window.location.href = "../error/error.html";
+        m = allProducts.products.filter((p) =>
+          p.title.includes(queryVal[0].slice(0, 2)),
+        );
+        m = ArrayPrep(m, BriefProductDisplay);
       }
       title.innerHTML = `Search results for <span class="highlight">${queryVal[0]} </span>`;
-      u = ArrayPrep(u.products, BriefProductDisplay);
-      Render(u, container, "beforeend", true);
+      Render(m, container, "beforeend", true);
     }
   } else if (queryVal.length > 1) {
     let data = await Promise.all(
@@ -133,6 +136,14 @@ async function Init() {
     let v = storage.Get("viewed");
     v.push(Eldata);
     storage.set("viewed", v);
+  });
+
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?log";
+    }
   });
 }
 Init();

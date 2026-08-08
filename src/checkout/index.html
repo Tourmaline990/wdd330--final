@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Companion | Checkout</title>
+    <script src="../js/checkout.js" type="module"></script>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <h1>Review & Checkout</h1>
+      <p id="inform"></p>
+      <form action="" method="get">
+        <fieldset>
+          <legend>Personal Information</legend>
+          <label for="fname">First Name</label>
+          <input
+            type="text"
+            name="fname"
+            title="first name"
+            id="fname"
+            required
+          />
+          <label for="lname">Last Name</label>
+          <input
+            type="text"
+            name="lname"
+            title="last name"
+            id="lname"
+            required
+          />
+        </fieldset>
+        <fieldset>
+          <legend>Address</legend>
+          <div>Country</div>
+          <div id="filter" aria-required="true"></div>
+          <ul id="country"></ul>
+          <label for="state">State</label>
+          <select name="state" id="state" required>
+            <option value="" disabled id="note">Select A State</option>
+          </select>
+          <div>City</div>
+          <div id="forcity"></div>
+          <ul id="city"></ul>
+          <label for="street">Street Address</label>
+          <input
+            type="text"
+            name="street"
+            title="street address"
+            id="street"
+            required
+          />
+          <label for="zip">Zip Code</label>
+          <input type="text" name="zip" id="zip" title="zip code" required />
+        </fieldset>
+        <fieldset>
+          <legend>Payment Details</legend>
+          <label for="cardNum">Card Number</label>
+          <input
+            type="text"
+            name="cardNum"
+            title="card Number"
+            id="cardNum"
+            required
+          />
+          <label for="exp">Expiration Date</label>
+          <input
+            type="month"
+            id="exp"
+            name="exp"
+            title="Expiration Date"
+            required
+            min="2020-01"
+          />
+          <label for="cvv">cvv</label>
+          <input type="text" name="cvv" id="cvv" title="cvv" required min="3" />
+        </fieldset>
+        <fieldset>
+          <legend>Shipping Address</legend>
+          <label for="ship">Same As Billing Address</label>
+          <input
+            type="checkbox"
+            name="ship"
+            title="Shipping Address Same As Billing"
+            required
+            id="ship"
+          />
+        </fieldset>
+        <button id="submit">Complete Purchase</button>
+      </form>
+      <section>
+        <article>
+          <h2>Your Order</h2>
+          <div id="items"></div>
+        </article>
+        <article>
+          <div>
+            <p>Subtotal</p>
+            <p id="subTotal"></p>
+          </div>
+          <div>
+            <p>Shipping Fee</p>
+            <p id="shippingFee"></p>
+          </div>
+          <div>
+            <p>Estimated Tax</p>
+            <p id="estimatedTax">$12.00</p>
+          </div>
+        </article>
+        <article>
+          <div>
+            <p>Total</p>
+            <p id="total"></p>
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer id="footer"></footer>
+  </body>
+</html>

@@ -83,5 +83,12 @@ async function init() {
       });
     });
   }
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?log";
+    }
+  });
 }
 init();
