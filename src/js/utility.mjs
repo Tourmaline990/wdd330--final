@@ -77,7 +77,7 @@ export function ArrayPrep(arr,template,limit=0){
    return MapTemplate(array,template)
 }
 export function EmptyString(val){
-    if(!val || val.trim === ""){
+    if(!val || val.trim() === ""){
             return false
          }
          return val

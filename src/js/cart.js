@@ -85,7 +85,7 @@ async function Init() {
     let loggedIn = storage.Get("login");
     if (!loggedIn.isLoggedIn || loggedIn.isLoggedIn === undefined) {
       window.location.href = `../user/login.html?q=log`;
-      storage.set("locationRedirect", "../cart/cart.html");
+      storage.set("locationRedirect", "../checkout/index.html");
     } else {
       window.location.href = `../checkout/index.html`;
     }
@@ -130,5 +130,12 @@ async function Init() {
       window.location.href = `../index.html`;
     });
   }
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?log";
+    }
+  });
 }
 Init();

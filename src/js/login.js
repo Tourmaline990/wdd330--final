@@ -18,7 +18,7 @@ storage.logInCountDown();
 
 async function Init() {
   //dom
-  const container = document.querySelector("#container");
+  // const container = document.querySelector("#container");
 
   let q = GetUrlParams("q");
   const user = storage.Get("user");
@@ -47,22 +47,22 @@ async function Init() {
         await LoadPartials("/partials/login2.html", "container", true, true);
 
         document.querySelector("#log2").addEventListener("click", () => {
-          let password = document.querySelector("#password").value;
-          if (!EmptyString()) {
-            userName.classList.add("negative");
+          let password = document.querySelector("#password");
+          if (!EmptyString(password.value)) {
+            password.classList.add("negative");
             return;
           }
-          if (password !== user.password) {
-            userName.classList.add("negative");
+          if (password.value !== user.password) {
+            password.classList.add("negative");
             document.querySelector("#notify").innerHTML =
               `Incorrect Password. Please try again`;
             userName.value = ``;
           } else {
             LogUserIn(storage);
-            notify.innerHTML = "Logging you in....";
+            document.querySelector("#notify").innerHTML = "Logging you in....";
             setTimeout(
               () =>
-                (window.Location.href = EmptyString(
+                (window.location.href = EmptyString(
                   storage.Get("locationRedirect"),
                 )),
               4000,
@@ -74,8 +74,6 @@ async function Init() {
   }
 }
 export function LogUserIn(store) {
-  // let login = store.Get("login");
-  // let isLoggedIn;
   const date = new Date();
   let loginTime = date.getTime();
   let expiresAt = new Date(date);

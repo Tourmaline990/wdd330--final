@@ -16,3 +16,22 @@ export function CartTemplate(item) {
       </div>
    `;
 }
+export function Li(da) {
+  return `<li class="cityname">${da} </li>`;
+}
+
+export function searchTemplate(data) {
+  return `
+     <li class="acountry"> <img src = "${data.flag.url_png}" alt="${data.names.common}" loading = "lazy"> <span> ${data.names.common} </span> </li>
+   `;
+}
+export function SelectOptionTemplate(state) {
+  return `
+     <option value=${state.name}> ${state.name}</option>
+   `;
+}
+export function CheckoutTp(product) {
+  return `
+      <p> <span> ${product.name} </span> <span> $${product.price} </span>
+   `;
+}
