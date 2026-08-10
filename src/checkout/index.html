@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Companion | Checkout</title>
     <script src="../js/checkout.js" type="module"></script>
+   
   </head>
   <body>
     <header></header>
     <main>
-      <h1>Review & Checkout</h1>
+      <h1 id="rev">Review & Checkout</h1>
+      
       <p id="inform"></p>
-      <form action="" method="get">
+      <form >
         <fieldset>
           <legend>Personal Information</legend>
           <label for="fname">First Name</label>
@@ -20,6 +22,7 @@
             name="fname"
             title="first name"
             id="fname"
+            placeholder="Aaliya"
             required
           />
           <label for="lname">Last Name</label>
@@ -29,6 +32,7 @@
             title="last name"
             id="lname"
             required
+            placeholder="rainbow"
           />
         </fieldset>
         <fieldset>
@@ -37,7 +41,7 @@
           <div id="filter" aria-required="true"></div>
           <ul id="country"></ul>
           <label for="state">State</label>
-          <select name="state" id="state" required>
+          <select name="state" id="state" >
             <option value="" disabled id="note">Select A State</option>
           </select>
           <div>City</div>
@@ -52,7 +56,7 @@
             required
           />
           <label for="zip">Zip Code</label>
-          <input type="text" name="zip" id="zip" title="zip code" required />
+          <input type="text" name="zip" id="zip" title="zip code" required placeholder="100101"/>
         </fieldset>
         <fieldset>
           <legend>Payment Details</legend>
@@ -74,22 +78,21 @@
             min="2020-01"
           />
           <label for="cvv">cvv</label>
-          <input type="text" name="cvv" id="cvv" title="cvv" required min="3" />
+          <input type="text" name="cvv" id="cvv" title="cvv" required min="3" placeholder="e.g 123"/>
         </fieldset>
-        <fieldset>
+        <fieldset id="shipping">
           <legend>Shipping Address</legend>
-          <label for="ship">Same As Billing Address</label>
-          <input
+           <label for="ship"> <input
             type="checkbox"
             name="ship"
             title="Shipping Address Same As Billing"
             required
             id="ship"
-          />
+          />Same As Billing Address</label>
+          
+         
         </fieldset>
-        <button id="submit">Complete Purchase</button>
-      </form>
-      <section>
+       <section class="ur-order">
         <article>
           <h2>Your Order</h2>
           <div id="items"></div>
@@ -115,6 +118,9 @@
           </div>
         </article>
       </section>
+        <button id="submit" type="submit">Complete Purchase</button>
+      </form>
+       
     </main>
     <footer id="footer"></footer>
   </body>

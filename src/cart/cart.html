@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Companion | Cart</title>
     <script src="../js/cart.js" type="module"></script>
+    
   </head>
   <body>
     <header></header>
     <main>
-      <article>
-        <div>
+      <article class="cartcnt">
+        <div class="ctrl">
+          <h2>Cart (<span id="len"></span>)</h2>
           <button title="clear cart" id="clearCart">X</button>
         </div>
         <section class="summary">
-          <p>Cart Summary</p>
-          <div>
-            <h1>Subtotal</h1>
+            <h3>Subtotal</h3>
             <p id="subtotal"></p>
-          </div>
         </section>
-        <section id="container"></section>
+        <section id="container" class="c"></section>
         <section class="checks">
+          <div>
           <img src="/images/svgs/telephone.svg" alt="call icon" />
-          <button id="checkout">CheckOut <span id="total"></span></button>
+          </div>
+          <button id="checkout">Checkout (<span id="total"></span>)</button>
         </section>
       </article>
     </main>

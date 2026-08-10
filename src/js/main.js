@@ -8,6 +8,8 @@ import { BriefProductDisplay } from "../js/templates/productTemplate";
 import { PromotionTemplate } from "../js/templates/promotion";
 import { CategoryTemplate } from "../js/templates/promotion";
 import { ArrayPrep } from "./utility.mjs";
+import '../styles/base.css'
+import '../styles/large.css'
 
 async function Init() {
   // Partials Display
@@ -43,6 +45,18 @@ async function Init() {
     storage.init();
   }
   storage.logInCountDown();
+
+  // user profile 
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
+    }
+  });
 
   //
   const allProducts = await dummyjson.GetAllProducts();
@@ -154,13 +168,7 @@ async function Init() {
     window.location.href = `../category/index.html?q=${searchInput.value}`;
   }
 
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "user/login.html?log";
-    }
-  });
+  
 }
 
 Init();

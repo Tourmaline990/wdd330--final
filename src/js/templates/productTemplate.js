@@ -1,30 +1,37 @@
 export function ProductDetailsTemplate(product) {
-  return `<a href="../productPage/index.html?q=${product.id}"> 
+  return ` 
         <div class="imageContainer"> 
            ${ItemsLoop(product.images).join("")}
         </div>
-        <h1>${product.title}</h1>
+        <h2>${product.title}</h2>
+        <div class='tags'>
+        <p class="brand">Brand: <span>${product.brand}<span></p>
+        <p class="instock"><span>${product.availabilityStatus}<span></p>
+        </div>
+        <div class='units'>
+        <p class='p'>$${product.price}</p>
+        <p class='stock'> <span>${product.stock}</span> units left </p>
+        </div>
         <p>${product.description}</p>
-        <p>${product.price}</p>
-        <p>${product.returnPolicy}</p>
-        <p>${product.stock} left </p>
-        <p>Rating: ${product.rating}</p>
-        <h2>Reviews</h2>
+        <p class='r'>${product.returnPolicy}</p>
+        <p>${product.shippingInformation}</p>
+        <p>${product.warrantyInformation}</p>
+        <div class="ting">Product Rating: <div class='forstar'>${rating(product.rating)}</div></div>
+        <h3>Reviews</h3>
            <div class="reviews">
                 ${ItemsLoop(product.reviews, false).join("")}
            </div>
-        <p>${product.shippingInformation}</p>
-        <p>${product.warrantyInformation}</p>
         <button hidden class="holdsId">${product.id}</button>
-   </a>`;
+   `
 }
 
 export function BriefProductDisplay(product) {
   return ` 
-   <a href="../productPage/index.html?q=${product.id}">
+   <a href="../productPage/index.html?q=${product.id}" class="hashyper">
     <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
-     <h1> ${product.title} </h1>
-     <p> ${product.price} </p>
+     <h2> ${product.title} </h1>
+     <p> $${product.price} </p>
+     <p class='instock'>${product.availabilityStatus}</p>
      <button hidden class="holdsId">${product.id}</button>
    </a>
    `;
@@ -35,9 +42,10 @@ function ItemsLoop(key, image = true) {
     for (let i = 0; i < key.length; i++) {
       arr[i] = `<div>
             <p>${key[i].comment}</p>
-            <p>${key[i].date}</p>
-            <p>${key[i].reviewerName}</p>
-            <p>${key[i].rating}</p>
+            <p class="date">${new Date(key[i].date).toDateString()}</p>
+            <p>By ${key[i].reviewerName}</p>
+            <p class="rev">${rating(key[i].rating)}</p>
+            <p class="green">verified purchase</p>
            </div>`;
     }
     return arr;
@@ -47,4 +55,32 @@ function ItemsLoop(key, image = true) {
     arr[i] = `<img src="${key[i]}" alt="image icon" loading="lazy">`;
   }
   return arr;
+}
+function rating(rating){
+  let ratingnum = Math.floor(Number(rating));
+  let arr = [1,2,3,4,5]
+  arr = arr.map((i,index) => {
+    if(index <= ratingnum){
+       return inputTemplate(true)
+    }
+    return inputTemplate()
+  })
+  return arr.join("")
+  
+}
+function inputTemplate(num=false){
+  if (num){
+    return `
+     <label class="star">
+      <input type="checkbox">
+       <span class="yellow">&#9733;<span>
+     </label>  `
+}
+else{
+  return `
+     <label class="star">
+      <input type="checkbox">
+       <span>&#9733;<span>
+     </label>  `
+}
 }

@@ -3,10 +3,12 @@ import DataStorage from "./Datastorage.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import { EmptyString } from "./utility.mjs";
 import { LogUserIn } from "./login";
+import '../styles/base.css'
+import '../styles/large.css'
 
-LoadPartials("/partials/footer.html", "footer");
+LoadPartials("/partials/footer.html", "footer",true,true);
 LoadPartials("/partials/head.html", "head", false);
-LoadPartials("/partials/header.html", "header", false);
+
 
 // initialization
 const storage = new DataStorage();
@@ -17,6 +19,7 @@ if (!storage.IsInit()) {
 storage.logInCountDown();
 
 async function init() {
+  await LoadPartials("/partials/header.html", "header", false,true);
   let q = GetUrlParams("q");
   if (q === "log") {
     await LoadPartials("/partials/signup1.html", "container", true, true);
@@ -65,11 +68,13 @@ async function init() {
         if (p.value !== authenP.value) {
           authenP.value = "";
           p.value = "";
+          notify.classList.add("show")
           notify.innerHTML = `Please enter same password in both fields`;
         } else {
           user.password = p.value;
           user.IsRegistered = true;
           storage.set("user", user);
+          notify.classList.add("show")
           notify.innerHTML = `You're all set! your account has been created successfully`;
           LogUserIn(storage);
           setTimeout(() => {
@@ -83,11 +88,14 @@ async function init() {
       });
     });
   }
-  document.querySelector(`#profile`).addEventListener("click", () => {
+ document.querySelector(`#profile`).addEventListener("click", () => {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?log";
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
     }
   });
 }

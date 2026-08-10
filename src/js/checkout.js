@@ -12,6 +12,10 @@ import Api from "./api.mjs";
 import { CheckoutTp } from "./templates/cartTemplate";
 import CheckoutProcessor from "./checkoutProcessor.mjs";
 import { PrepareCart } from "./checkoutProcessor.mjs";
+import { StageEvent } from "./utility.mjs";
+
+import '../styles/base.css'
+import '../styles/large.css'
 
 let storage = new DataStorage();
 if (!storage.IsInit()) {
@@ -58,6 +62,7 @@ async function Init() {
     "filter",
     "searchinput",
     async (event) => {
+      el.classList.add("show")
       await ClickFn(
         Populate,
         el,
@@ -71,7 +76,7 @@ async function Init() {
           ),
         searchTemplate,
       );
-
+       
       event.target.addEventListener("input", () => {
         clearTimeout(typingtimeout);
         typingtimeout = setTimeout(async () => {
@@ -104,13 +109,14 @@ async function Init() {
     "country",
     "acountry",
     (event) => {
-      let c = Array.from(event.target.children);
-      c = c.find((a) => a.tagName === "SPAN");
+      city.classList.add("show")
+      let target = event.target.closest(".acountry").querySelector('span')
       let element = event.target
         .closest("fieldset")
         .querySelector(".searchinput");
-      element.value = c.innerHTML;
+      element.value = target.innerHTML;
       el.innerHTML = "";
+      el.classList.remove("show")
     },
     true,
   );
@@ -191,11 +197,12 @@ async function Init() {
       let t = r.querySelector(".searchinput");
       t.value = text;
       city.innerHTML = "";
+      city.classList.remove("show")
     },
     true,
   );
-  // checkout
-
+  
+// checkout
 const cart = storage.Get("cart");
 let p_ids = cart.map((c) => c.p_id);
 p_ids = await dummyjson.GetProductsById(p_ids);
@@ -212,18 +219,31 @@ document.querySelector("#shippingFee").textContent = `$${shipping.toFixed(2)}`;
 document.querySelector("#total").textContent = `$${total.toFixed(2)}`;
 
 const processor = new CheckoutProcessor(shipping, total);
-document.querySelector("#submit").addEventListener("click", () => {
-  processor.init();
+
+document.querySelector("#submit").addEventListener("click", async (event) => {
+  event.preventDefault()
+ const form =  document.querySelector("form")
+ if(!form.checkValidity()){
+     form.reportValidity()
+     return
+ }
+ console.log("here")
+  await processor.init();
+  document.querySelector("#shippingFee").textContent = ``;
+  document.querySelector("#estimatedTax").classList.add("hide")
   window.location.href = "../success/index.html";
 });
 
 document.querySelector(`#profile`).addEventListener("click", () => {
-  let login = storage.Get("login");
-  if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-    storage.set("locationRedirect", "../profile/index.html");
-    window.location.href = "../user/login.html?log";
-  }
-});
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
+    }
+  });
 
 
 
@@ -232,23 +252,7 @@ document.querySelector(`#profile`).addEventListener("click", () => {
 Init();
 
 
-function StageEvent(parent, expectedTargetId, callback, targetIsClass = false) {
-  if (targetIsClass) {
-    document.querySelector(`#${parent}`).addEventListener("click", (event) => {
-      let targetItem = event.target.closest(`.${expectedTargetId}`);
-      if (targetItem) {
-        callback(event);
-        return;
-      }
-    });
-  }
-  document.querySelector(`#${parent}`).addEventListener("click", (event) => {
-    let targetItem = event.target.closest(`#${expectedTargetId}`);
-    if (targetItem) {
-      callback(event);
-    }
-  });
-}
+
 function ClearSearch(searchInputName) {
   event.target.parentElement.querySelector(`.${searchInputName}`).value = "";
 }

@@ -5,12 +5,14 @@ import Api from "./api.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { Render } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
+import '../styles/base.css'
+import '../styles/large.css'
 
 async function Init() {
   // partials display
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
-  LoadPartials("/partials/header.html", "header", false);
+ await LoadPartials("/partials/header.html", "header", false);
 
   //env's
   const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
@@ -77,7 +79,10 @@ async function Init() {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?log";
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
     }
   });
 }

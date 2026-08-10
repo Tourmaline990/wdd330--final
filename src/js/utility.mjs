@@ -82,3 +82,20 @@ export function EmptyString(val){
          }
          return val
 }
+export function StageEvent(parent, expectedTargetId, callback, targetIsClass = false){
+  if (targetIsClass) {
+    document.querySelector(`#${parent}`).addEventListener("click", (event) => {
+      let targetItem = event.target.closest(`.${expectedTargetId}`);
+      if (targetItem) {
+        callback(event);
+        
+      }
+    });
+  }
+  document.querySelector(`#${parent}`).addEventListener("click", (event) => {
+    let targetItem = event.target.closest(`#${expectedTargetId}`);
+    if (targetItem) {
+      callback(event);
+    }
+  });
+}
