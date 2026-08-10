@@ -3,13 +3,15 @@ import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
 import { CartTemplate } from "./templates/cartTemplate";
+import '../styles/base.css'
+import '../styles/large.css'
 
 import { Render } from "./utility.mjs";
 import { MapTemplate } from "./utility.mjs";
 
-LoadPartials("/partials/footer.html", "footer");
+ LoadPartials("/partials/footer.html", "footer");
 LoadPartials("/partials/head.html", "head", false);
-LoadPartials("/partials/header.html", "header", false);
+
 
 //env's
 const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
@@ -30,12 +32,16 @@ const subtotal = document.querySelector("#subtotal");
 const checkouttotal = document.querySelector("#total");
 
 async function Init() {
+ await LoadPartials("/partials/header.html", "header", false);
   let cart = storage.Get("cart");
 
   if (!cart || cart.length === 0) {
     EmptyCart();
   } else {
+    document.querySelector(".summary").classList.remove("hide");
+    document.querySelector(".checks").classList.remove("hide");
     let r = await updateTotal(cart, mapCart, subtotal, checkouttotal);
+    document.querySelector("#len").textContent = cart.length
     Render(r, container, "beforeend", true);
 
     document
@@ -123,7 +129,7 @@ async function Init() {
       ClearCart(storage);
     });
     container.innerHTML = `
-        <p> No items in cart yet <p>
+        <p> No items in cart yet </p>
          <button class="view"> View Products </button>
         `;
     document.querySelector(".view").addEventListener("click", () => {
@@ -134,7 +140,10 @@ async function Init() {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?log";
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
     }
   });
 }

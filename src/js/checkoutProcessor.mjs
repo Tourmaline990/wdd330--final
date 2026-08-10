@@ -15,7 +15,7 @@ export default  class CheckoutProcessor {
     }
     async init(){
        await this.orderItems();
-        storage.clear("cart",[])
+        // storage.clear("cart",[])
     }
     async orderItems(){
         let  items = this.cart.map((v) => v.p_id )
@@ -23,7 +23,7 @@ export default  class CheckoutProcessor {
         items = items.map( (v,index) => { return{"p":v,"qty":this.cart[index].qty}})
         items = items.map(PrepareCart)
         console.log(items)
-        this.orderHistory.push({"order-date":Date.now(),"items":items,"tax":12,"shipping":this.shippingCost,"total":this.total.toFixed(2)})
+        this.orderHistory.push({"orderDate":Date.now(),"items":items,"tax":12,"shipping":this.shippingCost,"total":this.total.toFixed(2)})
         storage.set("orderhistory",this.orderHistory)
     }
 }

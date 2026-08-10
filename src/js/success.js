@@ -1,12 +1,14 @@
 import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
+import '../styles/base.css'
+import '../styles/large.css'
 
 
 async function Init() {
  let storage = new DataStorage()
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
-  LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/header.html", "header", false);
 
   document.querySelector("#hist").addEventListener("click", () => {
     window.location.href = "../order/index.html";
@@ -19,7 +21,10 @@ async function Init() {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?log";
+      window.location.href = "../user/login.html?q=log";
+    }
+    else{
+       window.location.href = "../profile/index.html";
     }
   });
 }
