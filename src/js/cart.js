@@ -3,15 +3,14 @@ import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
 import { CartTemplate } from "./templates/cartTemplate";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 import { Render } from "./utility.mjs";
 import { MapTemplate } from "./utility.mjs";
 
- LoadPartials("/partials/footer.html", "footer");
+LoadPartials("/partials/footer.html", "footer");
 LoadPartials("/partials/head.html", "head", false);
-
 
 //env's
 const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
@@ -32,7 +31,7 @@ const subtotal = document.querySelector("#subtotal");
 const checkouttotal = document.querySelector("#total");
 
 async function Init() {
- await LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/header.html", "header", false);
   let cart = storage.Get("cart");
 
   if (!cart || cart.length === 0) {
@@ -41,7 +40,7 @@ async function Init() {
     document.querySelector(".summary").classList.remove("hide");
     document.querySelector(".checks").classList.remove("hide");
     let r = await updateTotal(cart, mapCart, subtotal, checkouttotal);
-    document.querySelector("#len").textContent = cart.length
+    document.querySelector("#len").textContent = cart.length;
     Render(r, container, "beforeend", true);
 
     document
@@ -141,9 +140,8 @@ async function Init() {
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
 }

@@ -3,12 +3,11 @@ import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import { EmptyString } from "./utility.mjs";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 LoadPartials("/partials/footer.html", "footer");
 LoadPartials("/partials/head.html", "head", false);
-
 
 // initialization
 const storage = new DataStorage();
@@ -19,8 +18,7 @@ if (!storage.IsInit()) {
 storage.logInCountDown();
 
 async function Init() {
- await LoadPartials("/partials/header.html", "header", false);
-  
+  await LoadPartials("/partials/header.html", "header", false);
 
   let q = GetUrlParams("q");
   const user = storage.Get("user");
@@ -37,18 +35,21 @@ async function Init() {
       }
       if (!user.IsRegistered || user.IsRegistered === undefined) {
         userName.classList.remove("negative");
-        notify.classList.add("show")
+        notify.classList.add("show");
         notify.innerHTML = `Looks like you're new here. Complete your signup to continue`;
         user.name = name;
         storage.set("user", user);
-        setTimeout(() => {notify.classList.remove("show");window.location.href = "signup.html?q=log"}, 5000);
+        setTimeout(() => {
+          notify.classList.remove("show");
+          window.location.href = "signup.html?q=log";
+        }, 5000);
       } else if (name !== user.name) {
         userName.classList.add("negative");
-        notify.classList.add("show")
+        notify.classList.add("show");
         notify.innerHTML = `The Username you entered is incorrect`;
         userName.value = ``;
       } else {
-        notify.classList.remove("show")
+        notify.classList.remove("show");
         await LoadPartials("/partials/login2.html", "container", true, true);
 
         document.querySelector("#log2").addEventListener("click", () => {
@@ -60,14 +61,13 @@ async function Init() {
           if (password.value !== user.password) {
             password.classList.add("negative");
             let n = document.querySelector("#notify");
-            n.classList.add("show")
-            n.innerHTML =
-              `Incorrect Password. Please try again`;
+            n.classList.add("show");
+            n.innerHTML = `Incorrect Password. Please try again`;
             userName.value = ``;
           } else {
             LogUserIn(storage);
             let n = document.querySelector("#notify");
-            n.classList.add("show")
+            n.classList.add("show");
             n.innerHTML = "Logging you in....";
             setTimeout(
               () =>
@@ -92,6 +92,5 @@ export function LogUserIn(store) {
     loginTime: loginTime,
     expiresAt: expiresAt,
   });
-  
 }
 Init();

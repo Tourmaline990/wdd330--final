@@ -1,7 +1,7 @@
 import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 const storage = new DataStorage();
 
@@ -28,9 +28,8 @@ async function Init() {
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
 }

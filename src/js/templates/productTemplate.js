@@ -1,12 +1,17 @@
 export function ProductDetailsTemplate(product) {
   return ` 
-        <div class="imageContainer"> 
-           ${ItemsLoop(product.images).join("")}
-        </div>
+       <div class="wrapper">
+          <div class="imageContainer"> 
+            ${ItemsLoop(product.images).join("")}
+          </div>
+          <div class="scrollbar">
+               <div class="thumb"></div>
+          </div>
+      </div>
         <h2>${product.title}</h2>
         <div class='tags'>
-        <p class="brand">Brand: <span>${product.brand}<span></p>
-        <p class="instock"><span>${product.availabilityStatus}<span></p>
+        <p class="brand">Brand: <span>${brand(product.brand)}<span></p>
+        <p class="instock"><span>${Instock(product.availabilityStatus)}<span></p>
         </div>
         <div class='units'>
         <p class='p'>$${product.price}</p>
@@ -22,19 +27,28 @@ export function ProductDetailsTemplate(product) {
                 ${ItemsLoop(product.reviews, false).join("")}
            </div>
         <button hidden class="holdsId">${product.id}</button>
-   `
+   `;
 }
 
 export function BriefProductDisplay(product) {
   return ` 
-   <a href="../productPage/index.html?q=${product.id}" class="hashyper">
+   <a href="../productPage/index.html?q=${product.id}" class="hashyper brief">
     <img src="${product.images[0]}" alt="${product.title}" loading="lazy">
      <h2> ${product.title} </h1>
      <p> $${product.price} </p>
-     <p class='instock'>${product.availabilityStatus}</p>
+     ${Instock(product.availabilityStatus)}
      <button hidden class="holdsId">${product.id}</button>
    </a>
    `;
+}
+function Instock(status) {
+  if (status.toLowerCase() === "in stock") {
+    return `<p class='instock in'>${product.availabilityStatus}</p>`;
+  } else if (status.toLowerCase() === "low stock") {
+    return `<p class='instock low'>${product.availabilityStatus}</p>`;
+  } else {
+    return `<p class='instock not'>${product.availabilityStatus}</p>`;
+  }
 }
 function ItemsLoop(key, image = true) {
   let arr = [];
@@ -56,31 +70,35 @@ function ItemsLoop(key, image = true) {
   }
   return arr;
 }
-function rating(rating){
+function rating(rating) {
   let ratingnum = Math.floor(Number(rating));
-  let arr = [1,2,3,4,5]
-  arr = arr.map((i,index) => {
-    if(index <= ratingnum){
-       return inputTemplate(true)
+  let arr = [1, 2, 3, 4, 5];
+  arr = arr.map((i, index) => {
+    if (index <= ratingnum) {
+      return inputTemplate(true);
     }
-    return inputTemplate()
-  })
-  return arr.join("")
-  
+    return inputTemplate();
+  });
+  return arr.join("");
 }
-function inputTemplate(num=false){
-  if (num){
+function inputTemplate(num = false) {
+  if (num) {
     return `
      <label class="star">
       <input type="checkbox">
        <span class="yellow">&#9733;<span>
-     </label>  `
-}
-else{
-  return `
+     </label>  `;
+  } else {
+    return `
      <label class="star">
       <input type="checkbox">
        <span>&#9733;<span>
-     </label>  `
+     </label>  `;
+  }
 }
+function brand(brand) {
+  if (brand === undefined) {
+    return `N/A`;
+  }
+  return brand;
 }

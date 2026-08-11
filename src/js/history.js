@@ -4,8 +4,8 @@ import { OrderHistoryTemplate } from "./templates/historyTemplate";
 import { MapTemplate } from "./utility.mjs";
 import { StageEvent } from "./utility.mjs";
 import { Render } from "./utility.mjs";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 const storage = new DataStorage();
 if (!storage.IsInit()) {
@@ -17,9 +17,9 @@ storage.logInCountDown();
 const container = document.querySelector("#container");
 
 async function Init() {
-  LoadPartials("/partials/footer.html", "footer",true);
+  LoadPartials("/partials/footer.html", "footer", true);
   LoadPartials("/partials/head.html", "head", false);
- await LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/header.html", "header", false);
 
   const history = storage.Get("orderhistory");
   if (history.length === 0) {
@@ -31,21 +31,25 @@ async function Init() {
   }
   let m = MapTemplate(history, OrderHistoryTemplate);
   Render(m, container, "beforeend");
-  
-  StageEvent("container","contained",(event) => {
-    let targrtItemparent = event.target.closest(".contained")
-    targrtItemparent.querySelector(".dpdown").classList.toggle("show")
-    targrtItemparent.querySelector(".ctl").classList.toggle("show")
-  },true)
-  
- document.querySelector(`#profile`).addEventListener("click", () => {
+
+  StageEvent(
+    "container",
+    "contained",
+    (event) => {
+      let targrtItemparent = event.target.closest(".contained");
+      targrtItemparent.querySelector(".dpdown").classList.toggle("show");
+      targrtItemparent.querySelector(".ctl").classList.toggle("show");
+    },
+    true,
+  );
+
+  document.querySelector(`#profile`).addEventListener("click", () => {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
 }
