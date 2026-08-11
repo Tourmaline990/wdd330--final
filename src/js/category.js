@@ -9,14 +9,14 @@ import { Render } from "./utility.mjs";
 import { randomfunc } from "./utility.mjs";
 import FetchJson from "../js/fetch-json.mjs";
 import { CategoryTemplate } from "./templates/promotion";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 async function Init() {
   // partials display
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
- await LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/header.html", "header", false);
 
   // Dom Selection
   const container = document.querySelector("#container");
@@ -145,9 +145,8 @@ async function Init() {
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
 }

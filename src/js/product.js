@@ -5,14 +5,14 @@ import Api from "./api.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
 import { Render } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 async function Init() {
   // partials display
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
- await LoadPartials("/partials/header.html", "header", false);
+  await LoadPartials("/partials/header.html", "header", false);
 
   //env's
   const dummyJsonUrl = import.meta.env.VITE_SERVER_URL;
@@ -80,10 +80,49 @@ async function Init() {
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
+    } else {
+      window.location.href = "../profile/index.html";
     }
-    else{
-       window.location.href = "../profile/index.html";
+  });
+
+  const imagecontainer = document.querySelector(".imageContainer");
+  const thumb = document.querySelector(".thumb");
+  imagecontainer.addEventListener("scroll", () => {
+    const maxscroll = imagecontainer.scrollWidth - imagecontainer.clientWidth;
+    const maxmove = imagecontainer.clientWidth - thumb.offsetWidth;
+
+    const position = imagecontainer.scrollLeft / maxscroll;
+
+    thumb.style.transform = `translateX(${position * maxmove}px)`;
+  });
+
+  function updateThumb() {
+    const ratio = imagecontainer.clientWidth / imagecontainer.scrollWidth;
+    thumb.style.width = `${ratio * 100}%`;
+  }
+  window.addEventListener("resize", updateThumb);
+  updateThumb();
+
+  thumb.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startscroll = imagecontainer.scrollLeft;
+    function move(e) {
+      const maxscroll =
+        imagecontainer.scrollWidth - imagecontainer.clientHeight;
+      const maxmove = imagecontainer.clientWidth - thumb.offsetWidth;
+      const distance = e.clientX - startX;
+
+      imagecontainer.scrollLeft =
+        startscroll + (distance / maxmove) * maxscroll;
     }
+    function stop() {
+      document.removeEventListener("pointermove", move);
+      document.removeEventListener("pointerup", stop);
+    }
+
+    document.addEventListener("pointermove", move);
+    document.addEventListener("pointerup", stop);
   });
 }
 Init();

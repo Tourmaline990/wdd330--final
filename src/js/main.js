@@ -1,5 +1,5 @@
 // Imports
-import { LoadPartials,  Render } from "./utility.mjs";
+import { LoadPartials, Render } from "./utility.mjs";
 import FetchJson from "../js/fetch-json.mjs";
 import Api from "./api.mjs";
 import DataStorage from "./Datastorage.mjs";
@@ -8,8 +8,8 @@ import { BriefProductDisplay } from "../js/templates/productTemplate";
 import { PromotionTemplate } from "../js/templates/promotion";
 import { CategoryTemplate } from "../js/templates/promotion";
 import { ArrayPrep } from "./utility.mjs";
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 async function Init() {
   // Partials Display
@@ -46,15 +46,14 @@ async function Init() {
   }
   storage.logInCountDown();
 
-  // user profile 
+  // user profile
   document.querySelector(`#profile`).addEventListener("click", () => {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
 
@@ -167,8 +166,6 @@ async function Init() {
     }
     window.location.href = `../category/index.html?q=${searchInput.value}`;
   }
-
-  
 }
 
 Init();

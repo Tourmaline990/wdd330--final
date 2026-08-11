@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Companion | Checkout</title>
     <script src="../js/checkout.js" type="module"></script>
-   
   </head>
   <body>
     <header></header>
     <main>
       <h1 id="rev">Review & Checkout</h1>
-      
+
       <p id="inform"></p>
-      <form >
+      <form>
         <fieldset>
           <legend>Personal Information</legend>
           <label for="fname">First Name</label>
@@ -37,14 +36,14 @@
         </fieldset>
         <fieldset>
           <legend>Address</legend>
-          <div>Country</div>
+          <div class="l">Country</div>
           <div id="filter" aria-required="true"></div>
           <ul id="country"></ul>
           <label for="state">State</label>
-          <select name="state" id="state" >
+          <select name="state" id="state" required>
             <option value="" disabled id="note">Select A State</option>
           </select>
-          <div>City</div>
+          <div class="l">City</div>
           <div id="forcity"></div>
           <ul id="city"></ul>
           <label for="street">Street Address</label>
@@ -56,7 +55,14 @@
             required
           />
           <label for="zip">Zip Code</label>
-          <input type="text" name="zip" id="zip" title="zip code" required placeholder="100101"/>
+          <input
+            type="text"
+            name="zip"
+            id="zip"
+            title="zip code"
+            required
+            placeholder="100101"
+          />
         </fieldset>
         <fieldset>
           <legend>Payment Details</legend>
@@ -78,49 +84,56 @@
             min="2020-01"
           />
           <label for="cvv">cvv</label>
-          <input type="text" name="cvv" id="cvv" title="cvv" required min="3" placeholder="e.g 123"/>
+          <input
+            type="text"
+            name="cvv"
+            id="cvv"
+            title="cvv"
+            required
+            min="3"
+            placeholder="e.g 123"
+          />
         </fieldset>
         <fieldset id="shipping">
           <legend>Shipping Address</legend>
-           <label for="ship"> <input
-            type="checkbox"
-            name="ship"
-            title="Shipping Address Same As Billing"
-            required
-            id="ship"
-          />Same As Billing Address</label>
-          
-         
+          <label for="ship">
+            <input
+              type="checkbox"
+              name="ship"
+              title="Shipping Address Same As Billing"
+              required
+              id="ship"
+            />Same As Billing Address</label
+          >
         </fieldset>
-       <section class="ur-order">
-        <article>
-          <h2>Your Order</h2>
-          <div id="items"></div>
-        </article>
-        <article>
-          <div>
-            <p>Subtotal</p>
-            <p id="subTotal"></p>
-          </div>
-          <div>
-            <p>Shipping Fee</p>
-            <p id="shippingFee"></p>
-          </div>
-          <div>
-            <p>Estimated Tax</p>
-            <p id="estimatedTax">$12.00</p>
-          </div>
-        </article>
-        <article>
-          <div>
-            <p>Total</p>
-            <p id="total"></p>
-          </div>
-        </article>
-      </section>
+        <section class="ur-order">
+          <article>
+            <h2>Your Order</h2>
+            <div id="items"></div>
+          </article>
+          <article>
+            <div>
+              <p>Subtotal</p>
+              <p id="subTotal"></p>
+            </div>
+            <div>
+              <p>Shipping Fee</p>
+              <p id="shippingFee"></p>
+            </div>
+            <div>
+              <p>Estimated Tax</p>
+              <p id="estimatedTax">$12.00</p>
+            </div>
+          </article>
+          <article>
+            <div>
+              <p>Total</p>
+              <p id="total"></p>
+            </div>
+          </article>
+        </section>
         <button id="submit" type="submit">Complete Purchase</button>
       </form>
-       
     </main>
     <footer id="footer"></footer>
   </body>

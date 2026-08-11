@@ -14,8 +14,8 @@ import CheckoutProcessor from "./checkoutProcessor.mjs";
 import { PrepareCart } from "./checkoutProcessor.mjs";
 import { StageEvent } from "./utility.mjs";
 
-import '../styles/base.css'
-import '../styles/large.css'
+import "../styles/base.css";
+import "../styles/large.css";
 
 let storage = new DataStorage();
 if (!storage.IsInit()) {
@@ -62,7 +62,7 @@ async function Init() {
     "filter",
     "searchinput",
     async (event) => {
-      el.classList.add("show")
+      el.classList.add("show");
       await ClickFn(
         Populate,
         el,
@@ -76,7 +76,7 @@ async function Init() {
           ),
         searchTemplate,
       );
-       
+
       event.target.addEventListener("input", () => {
         clearTimeout(typingtimeout);
         typingtimeout = setTimeout(async () => {
@@ -109,14 +109,14 @@ async function Init() {
     "country",
     "acountry",
     (event) => {
-      city.classList.add("show")
-      let target = event.target.closest(".acountry").querySelector('span')
+      city.classList.add("show");
+      let target = event.target.closest(".acountry").querySelector("span");
       let element = event.target
         .closest("fieldset")
         .querySelector(".searchinput");
       element.value = target.innerHTML;
       el.innerHTML = "";
-      el.classList.remove("show")
+      el.classList.remove("show");
     },
     true,
   );
@@ -197,61 +197,55 @@ async function Init() {
       let t = r.querySelector(".searchinput");
       t.value = text;
       city.innerHTML = "";
-      city.classList.remove("show")
+      city.classList.remove("show");
     },
     true,
   );
-  
-// checkout
-const cart = storage.Get("cart");
-let p_ids = cart.map((c) => c.p_id);
-p_ids = await dummyjson.GetProductsById(p_ids);
-p_ids = p_ids.map((c, index) =>  ({ p: c, qty: cart[index].qty }));
-p_ids = p_ids.map(PrepareCart);
-let subtotal = p_ids.reduce((acc, item) => acc + Number(item.price), 0);
-p_ids = MapTemplate(p_ids, CheckoutTp);
-Render(p_ids, items, "beforeend");
 
-let shipping = 10 + (cart.length - 1) * 2;
-let total = subtotal + shipping + 12;
-document.querySelector("#subTotal").textContent = `$${subtotal.toFixed(2)}`;
-document.querySelector("#shippingFee").textContent = `$${shipping.toFixed(2)}`;
-document.querySelector("#total").textContent = `$${total.toFixed(2)}`;
+  // checkout
+  const cart = storage.Get("cart");
+  let p_ids = cart.map((c) => c.p_id);
+  p_ids = await dummyjson.GetProductsById(p_ids);
+  p_ids = p_ids.map((c, index) => ({ p: c, qty: cart[index].qty }));
+  p_ids = p_ids.map(PrepareCart);
+  let subtotal = p_ids.reduce((acc, item) => acc + Number(item.price), 0);
+  p_ids = MapTemplate(p_ids, CheckoutTp);
+  Render(p_ids, items, "beforeend");
 
-const processor = new CheckoutProcessor(shipping, total);
+  let shipping = 10 + (cart.length - 1) * 2;
+  let total = subtotal + shipping + 12;
+  document.querySelector("#subTotal").textContent = `$${subtotal.toFixed(2)}`;
+  document.querySelector("#shippingFee").textContent =
+    `$${shipping.toFixed(2)}`;
+  document.querySelector("#total").textContent = `$${total.toFixed(2)}`;
 
-document.querySelector("#submit").addEventListener("click", async (event) => {
-  event.preventDefault()
- const form =  document.querySelector("form")
- if(!form.checkValidity()){
-     form.reportValidity()
-     return
- }
- console.log("here")
-  await processor.init();
-  document.querySelector("#shippingFee").textContent = ``;
-  document.querySelector("#estimatedTax").classList.add("hide")
-  window.location.href = "../success/index.html";
-});
+  const processor = new CheckoutProcessor(shipping, total);
 
-document.querySelector(`#profile`).addEventListener("click", () => {
+  document.querySelector("#submit").addEventListener("click", async (event) => {
+    event.preventDefault();
+    const form = document.querySelector("form");
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    console.log("here");
+    await processor.init();
+    document.querySelector("#shippingFee").textContent = ``;
+    document.querySelector("#estimatedTax").classList.add("hide");
+    window.location.href = "../success/index.html";
+  });
+
+  document.querySelector(`#profile`).addEventListener("click", () => {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {
       storage.set("locationRedirect", "../profile/index.html");
       window.location.href = "../user/login.html?q=log";
-    }
-    else{
-       window.location.href = "../profile/index.html";
+    } else {
+      window.location.href = "../profile/index.html";
     }
   });
-
-
-
-
 }
 Init();
-
-
 
 function ClearSearch(searchInputName) {
   event.target.parentElement.querySelector(`.${searchInputName}`).value = "";
