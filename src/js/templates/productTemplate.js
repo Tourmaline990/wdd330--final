@@ -43,11 +43,11 @@ export function BriefProductDisplay(product) {
 }
 function Instock(status) {
   if (status.toLowerCase() === "in stock") {
-    return `<p class='instock in'>${product.availabilityStatus}</p>`;
+    return `<p class='instock in'>${status}</p>`;
   } else if (status.toLowerCase() === "low stock") {
-    return `<p class='instock low'>${product.availabilityStatus}</p>`;
+    return `<p class='instock low'>${status}</p>`;
   } else {
-    return `<p class='instock not'>${product.availabilityStatus}</p>`;
+    return `<p class='instock not'>${status}</p>`;
   }
 }
 function ItemsLoop(key, image = true) {
