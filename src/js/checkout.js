@@ -37,10 +37,15 @@ let city = document.querySelector("#city");
 let items = document.querySelector("#items");
 const options = { headers: { Authorization: `Bearer ${bearerToken}` } };
 let val;
-const data = new FetchJson(
-  `${countryFlagPath}?response_fields=flag.url_png,names.common,codes&limit=100`,
-  options,
-);
+let data;
+try {
+  data = new FetchJson(
+    `${countryFlagPath}?response_fields=flag.url_png,names.common,codes&limit=100`,
+    options,
+  );
+} catch (error) {
+  console.log(error);
+}
 
 async function Init() {
   // init
@@ -58,6 +63,7 @@ async function Init() {
   });
   let countryName = document.querySelector(".searchinput").value;
   let typingtimeout;
+
   StageEvent(
     "filter",
     "searchinput",
@@ -255,10 +261,15 @@ async function ClickFn(callback, ul, returneddata, transformFn, tp) {
   await callback(ul, returneddata, transformFn, tp);
 }
 async function Populate(ul, dataval, callback, tp) {
-  let d = await dataval.LoadData();
-  d = callback(d);
-  d = MapTemplate(d, tp);
-  Render(d, ul, "afterBegin", true);
+  try {
+    let d = await dataval.LoadData();
+    d = callback(d);
+    d = MapTemplate(d, tp);
+    Render(d, ul, "afterBegin", true);
+  } catch (error) {
+    console.log(error);
+    await LoadPartials("/partials/loading.html", ul, false, false, true);
+  }
 }
 function ManualQuery(input, alldata) {
   return alldata.filter((i) => i.toLowerCase().includes(input.toLowerCase()));

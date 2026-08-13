@@ -54,11 +54,17 @@ async function Init() {
     if (cart.length === 0 || !cart) {
       cart.push({ p_id: Number(id), qty: 1 });
       storage.set("cart", cart);
+      modal.insertAdjacentHTML(
+        "afterbegin",
+        `<p> Product added successfully </p>`,
+      );
+      modal.showModal();
     } else {
       let exists = cart.find((i) => i.p_id === id);
 
       if (exists || exists !== undefined) {
         let a = await dummyjson.SearchById(id);
+
         modal.insertAdjacentHTML(
           "afterbegin",
           `<p> <span class="highlight">${a.title}</span> already in cart,add or increase quantity</p>`,
@@ -67,7 +73,13 @@ async function Init() {
       } else {
         cart.push({ p_id: Number(id), qty: 1 });
         storage.set("cart", cart);
+        modal.insertAdjacentHTML(
+          "afterbegin",
+          `<p> Product added successfully </p>`,
+        );
+        modal.showModal();
       }
+      add.classList.add("added");
     }
   });
 

@@ -29,8 +29,16 @@ async function Init() {
   // initialization
   const storage = new DataStorage();
   const dummyjson = new Api(dummyJsonUrl);
-  const allProducts = await dummyjson.GetAllProducts();
-  const brands = await dummyjson.GetBrands();
+
+  let allProducts;
+  let brands;
+  try {
+    allProducts = await dummyjson.GetAllProducts();
+    brands = await dummyjson.GetBrands();
+  } catch (error) {
+    console.log(error);
+  }
+
   const promotionjson = new FetchJson(promotionPath);
 
   const headings = [
@@ -64,70 +72,78 @@ async function Init() {
   let queryVal = query.split(",");
   queryVal = queryVal.filter((q) => q !== "");
 
-  if (queryVal.length === 1) {
-    let data;
+  try {
+    if (queryVal.length === 1) {
+      let data;
 
-    if (storage.Get(queryVal[0], true)) {
-      if (queryVal[0] === "searched") {
-        title.innerHTML = `Searched products`;
-        data = await dummyjson.GetProductsById(storage.Get(queryVal[0]), true);
+      if (storage.Get(queryVal[0], true)) {
+        if (queryVal[0] === "searched") {
+          title.innerHTML = `Searched products`;
+          data = await dummyjson.GetProductsById(
+            storage.Get(queryVal[0]),
+            true,
+          );
+        } else {
+          title.innerHTML = `Viewed Products`;
+          data = await dummyjson.GetProductsById(storage.Get(queryVal[0]));
+        }
+        let returnval = ArrayPrep(data, BriefProductDisplay);
+        Render(returnval, container, "beforeend", true);
+      } else if (brands.includes(queryVal[0])) {
+        let brandData = allProducts.products.filter(
+          (item) => item.brand === queryVal[0],
+        );
+        brandData = ArrayPrep(brandData, BriefProductDisplay);
+        title.innerHTML = ` ${queryVal[0]} store`;
+        Render(brandData, container, "beforeend", true);
+      } else if (occurence.includes(queryVal[0])) {
+        if (queryVal[0] === "categories") {
+          await promotionjson.RenderData(
+            container,
+            "beforeend",
+            CategoryTemplate,
+          );
+          return;
+        } else if (queryVal[0] === "limitedStocks") {
+          title.innerHTML = `Limited Stocks`;
+          data = allProducts.products.filter((product) => product.stock <= 10);
+        } else if (queryVal[0] === "topSellers") {
+          title.innerHTML = `Top Sellers`;
+          data = allProducts.products.filter((product) => product.rating >= 4);
+        } else {
+          title.innerHTML = `${headings[randomfunc(headings)]}`;
+          data = allProducts.products;
+        }
+
+        let rands = ArrayPrep(data, BriefProductDisplay, 200);
+        Render(rands, container, "beforeend", true);
       } else {
-        title.innerHTML = `Viewed Products`;
-        data = await dummyjson.GetProductsById(storage.Get(queryVal[0]));
+        let u = await dummyjson.SearchByProductName(queryVal[0]);
+        let m = ArrayPrep(u.products, BriefProductDisplay);
+        if (u.products.length === 0 || u.products === undefined) {
+          m = allProducts.products.filter((p) =>
+            p.title.includes(queryVal[0].slice(0, 2)),
+          );
+          m = ArrayPrep(m, BriefProductDisplay);
+        }
+        title.innerHTML = `Search results for <span class="highlight">${queryVal[0]} </span>`;
+        Render(m, container, "beforeend", true);
       }
-      let returnval = ArrayPrep(data, BriefProductDisplay);
-      Render(returnval, container, "beforeend", true);
-    } else if (brands.includes(queryVal[0])) {
-      let brandData = allProducts.products.filter(
-        (item) => item.brand === queryVal[0],
+    } else if (queryVal.length > 1) {
+      let data = await Promise.all(
+        queryVal.map(async (item) => {
+          let m = await dummyjson.GetProductByCategory(item);
+          return m.products;
+        }),
       );
-      brandData = ArrayPrep(brandData, BriefProductDisplay);
-      title.innerHTML = ` ${queryVal[0]} store`;
-      Render(brandData, container, "beforeend", true);
-    } else if (occurence.includes(queryVal[0])) {
-      if (queryVal[0] === "categories") {
-        await promotionjson.RenderData(
-          container,
-          "beforeend",
-          CategoryTemplate,
-        );
-        return;
-      } else if (queryVal[0] === "limitedStocks") {
-        title.innerHTML = `Limited Stocks`;
-        data = allProducts.products.filter((product) => product.stock <= 10);
-      } else if (queryVal[0] === "topSellers") {
-        title.innerHTML = `Top Sellers`;
-        data = allProducts.products.filter((product) => product.rating >= 4);
-      } else {
-        title.innerHTML = `${headings[randomfunc(headings)]}`;
-        data = allProducts.products;
-      }
-
-      let rands = ArrayPrep(data, BriefProductDisplay, 200);
-      Render(rands, container, "beforeend", true);
-    } else {
-      let u = await dummyjson.SearchByProductName(queryVal[0]);
-      let m = ArrayPrep(u.products, BriefProductDisplay);
-      if (u.products.length === 0 || u.products === undefined) {
-        m = allProducts.products.filter((p) =>
-          p.title.includes(queryVal[0].slice(0, 2)),
-        );
-        m = ArrayPrep(m, BriefProductDisplay);
-      }
-      title.innerHTML = `Search results for <span class="highlight">${queryVal[0]} </span>`;
-      Render(m, container, "beforeend", true);
+      data = data.reduce((acc, item) => acc.concat(item), []);
+      title.innerHTML = `${headings[randomfunc(headings)]}`;
+      let forDisplay = ArrayPrep(data, BriefProductDisplay);
+      Render(forDisplay, container, "beforeend", true);
     }
-  } else if (queryVal.length > 1) {
-    let data = await Promise.all(
-      queryVal.map(async (item) => {
-        let m = await dummyjson.GetProductByCategory(item);
-        return m.products;
-      }),
-    );
-    data = data.reduce((acc, item) => acc.concat(item), []);
-    title.innerHTML = `${headings[randomfunc(headings)]}`;
-    let forDisplay = ArrayPrep(data, BriefProductDisplay);
-    Render(forDisplay, container, "beforeend", true);
+  } catch (error) {
+    console.log(error);
+    await LoadPartials("/partials/loading.html", "container", true);
   }
 
   // add viewed

@@ -58,7 +58,12 @@ async function Init() {
   });
 
   //
-  const allProducts = await dummyjson.GetAllProducts();
+  let allProducts;
+  try {
+    allProducts = await dummyjson.GetAllProducts();
+  } catch (error) {
+    console.log(error);
+  }
   const brandJson = new FetchJson(brandPath);
 
   // search bar
@@ -76,6 +81,7 @@ async function Init() {
   document
     .querySelector("#clearInput")
     .addEventListener("click", () => (searchInput.value = ""));
+
   // Promotion
   await promotionjson.RenderData(promotion, "afterbegin", PromotionTemplate);
 
@@ -89,15 +95,24 @@ async function Init() {
     contain.querySelector("h1").textContent = "Sponsored Products";
     contain.querySelector("a").href = "../category/index.html?q=randoms";
 
-    let sponsored = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
-    Render(sponsored, lastViewed, "beforeend");
+    try {
+      let sponsored = ArrayPrep(allProducts.products, BriefProductDisplay, 50);
+      Render(sponsored, lastViewed, "beforeend");
+    } catch (error) {
+      console.log(error);
+      await LoadPartials("/partials/loading.html", "lastViewed", true);
+    }
   } else {
     contain.querySelector("h1").textContent = "Last Viewed";
     contain.querySelector("a").href = "../category/index.html?q=viewed";
-
-    let arr = await dummyjson.GetProductsById(viewed);
-    arr = ArrayPrep(arr, BriefProductDisplay, 8);
-    Render(arr, lastViewed, "beforeend");
+    try {
+      let arr = await dummyjson.GetProductsById(viewed);
+      arr = ArrayPrep(arr, BriefProductDisplay, 8);
+      Render(arr, lastViewed, "beforeend");
+    } catch (error) {
+      console.log(error);
+      await LoadPartials("/partials/loading.html", "lastViewed", true);
+    }
   }
 
   // last searched display
@@ -106,27 +121,45 @@ async function Init() {
   if (searched.length === 0 || searched === undefined) {
     contain1.querySelector("h1").textContent = "Deals From Around The World";
     contain1.querySelector("a").href = `../category/index.html?q=world`;
-
-    let arr = ArrayPrep(allProducts.products, BriefProductDisplay, 15);
-    Render(arr, lastSearched, "Beforeend");
+    try {
+      let arr = ArrayPrep(allProducts.products, BriefProductDisplay, 30);
+      Render(arr, lastSearched, "Beforeend");
+    } catch (error) {
+      console.log(error);
+      await LoadPartials("/partials/loading.html", "lastSearched", true);
+    }
   } else {
     contain1.querySelector("h1").textContent = "Last Searched";
     contain1.querySelector("a").href = "../category/index.html?q=searched";
-
-    let arr = await dummyjson.GetProductsById(searched, true);
-    let m = ArrayPrep(arr, BriefProductDisplay, 8);
-    Render(m, lastSearched, "beforeend");
+    try {
+      let arr = await dummyjson.GetProductsById(searched, true);
+      let m = ArrayPrep(arr, BriefProductDisplay, 8);
+      Render(m, lastSearched, "beforeend");
+    } catch (error) {
+      console.log(error);
+      await LoadPartials("/partials/loading.html", "lastSearched", true);
+    }
   }
 
   // Top Sellers
-  let top = allProducts.products.filter((product) => product.rating >= 4);
-  top = ArrayPrep(top, BriefProductDisplay, 10);
-  Render(top, topSellers, "beforeend");
+  try {
+    let top = allProducts.products.filter((product) => product.rating >= 4);
+    top = ArrayPrep(top, BriefProductDisplay, 25);
+    Render(top, topSellers, "beforeend");
+  } catch (error) {
+    console.log(error);
+    await LoadPartials("/partials/loading.html", "topSellers", true);
+  }
 
   // limited stocks
-  let limited = allProducts.products.filter((product) => product.stock <= 10);
-  limited = ArrayPrep(limited, BriefProductDisplay, 12);
-  Render(limited, limitedStocks, "beforeend");
+  try {
+    let limited = allProducts.products.filter((product) => product.stock <= 10);
+    limited = ArrayPrep(limited, BriefProductDisplay, 25);
+    Render(limited, limitedStocks, "beforeend");
+  } catch (error) {
+    console.log(error);
+    await LoadPartials("/partials/loading.html", "limited", true);
+  }
 
   // brands store
   brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 10);
@@ -151,21 +184,58 @@ async function Init() {
     if (searchInput.value.trim() === "" || !searchInput.value) {
       return;
     }
-    let prod = await dummyjson.SearchByProductName(searchInput.value);
-    if (
-      prod.products !== undefined &&
-      prod.products !== null &&
-      prod.products.length !== 0
-    ) {
-      let f = storage.Get("searched");
-      let check = f.find((a) => a === searchInput.value);
-      if (!check || check === undefined || check === null) {
-        f.push(searchInput.value);
-        storage.set("searched", f);
+    try {
+      let prod = await dummyjson.SearchByProductName(searchInput.value);
+      if (
+        prod.products !== undefined &&
+        prod.products !== null &&
+        prod.products.length !== 0
+      ) {
+        let f = storage.Get("searched");
+        let check = f.find((a) => a === searchInput.value);
+        if (!check || check === undefined || check === null) {
+          f.push(searchInput.value);
+          storage.set("searched", f);
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
+
     window.location.href = `../category/index.html?q=${searchInput.value}`;
   }
+
+  // carousel
+  const wrapper = document.querySelector(".promotion-wrapper");
+  let currentslides = 0;
+
+  function Moveslides() {
+    const slides = document.querySelectorAll("#promotions > a");
+    currentslides = (currentslides + 1) % slides.length;
+    const slidewidth = wrapper.clientWidth;
+
+    promotion.style.transform = `translateX(-${currentslides * slidewidth}px)`;
+  }
+
+  let mediaquery = window.matchMedia("(min-width:38rem)");
+  let slideInterval = null;
+  function StartSlider() {
+    if (slideInterval === null) {
+      slideInterval = setInterval(Moveslides, 3000);
+    }
+  }
+  function StopSlider() {
+    clearInterval(slideInterval);
+  }
+  function active() {
+    if (mediaquery.matches) {
+      StartSlider();
+    } else {
+      StopSlider();
+    }
+  }
+  active();
+  mediaquery.addEventListener("change", active);
 }
 
 Init();
