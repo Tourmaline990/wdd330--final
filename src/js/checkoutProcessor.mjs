@@ -15,7 +15,7 @@ export default  class CheckoutProcessor {
     }
     async init(){
        await this.orderItems();
-        // storage.clear("cart",[])
+        storage.clear("cart",[])
     }
     async orderItems(){
         let  items = this.cart.map((v) => v.p_id )

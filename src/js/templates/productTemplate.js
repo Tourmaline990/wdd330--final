@@ -8,10 +8,11 @@ export function ProductDetailsTemplate(product) {
                <div class="thumb"></div>
           </div>
       </div>
+      <div class="fordesk">
         <h2>${product.title}</h2>
         <div class='tags'>
         <p class="brand">Brand: <span>${brand(product.brand)}<span></p>
-        <p class="instock"><span>${Instock(product.availabilityStatus)}<span></p>
+        <p class="instock">${Instock(product.availabilityStatus)}</p>
         </div>
         <div class='units'>
         <p class='p'>$${product.price}</p>
@@ -22,6 +23,7 @@ export function ProductDetailsTemplate(product) {
         <p>${product.shippingInformation}</p>
         <p>${product.warrantyInformation}</p>
         <div class="ting">Product Rating: <div class='forstar'>${rating(product.rating)}</div></div>
+        </div>
         <h3>Reviews</h3>
            <div class="reviews">
                 ${ItemsLoop(product.reviews, false).join("")}
@@ -43,11 +45,11 @@ export function BriefProductDisplay(product) {
 }
 function Instock(status) {
   if (status.toLowerCase() === "in stock") {
-    return `<p class='instock in'>${status}</p>`;
+    return `<span class='instock in'>${status}</span>`;
   } else if (status.toLowerCase() === "low stock") {
-    return `<p class='instock low'>${status}</p>`;
+    return `<span class='instock low'>${status}</span>`;
   } else {
-    return `<p class='instock not'>${status}</p>`;
+    return `<span class='instock not'>${status}</span>`;
   }
 }
 function ItemsLoop(key, image = true) {

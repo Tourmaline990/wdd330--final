@@ -1,9 +1,13 @@
-export async function LoadPartials(path,element,id=true,clear=false){
+export async function LoadPartials(path,element,id=true,clear=false,isSelected=false){
    let data = await fetch(path)
     if(!data.ok){
        console.log(data.text())
     }
     data = await data.text()
+    if(isSelected){
+        element.insertAdjacentHTML("beforeend",data) 
+        return
+    }
     if(!id){
        if(clear){
           document.querySelector(`${element}`).innerHTML = ``

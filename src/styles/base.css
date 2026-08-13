@@ -159,6 +159,7 @@ h6 {
     border-radius: 10px;
     color: var(--text);
     font-size: 1rem;
+    text-align: center;
     font-family: var(--body-font);
     border: 1px solid var(--border);
     box-shadow: 2px 3px 2px 4px var(--border);
@@ -246,6 +247,7 @@ h6 {
     border: 0;
     padding: 15px;
     border-radius: 10px;
+    transition: background-color 0.8ms;
     color: var(--background);
     background: var(--primary-dark);
     #total {
@@ -394,12 +396,13 @@ footer {
   }
   .acc,
   .other {
-    border: 1px solid var(--border);
     padding: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    box-shadow: 2px 3px 5px 5px var(--border);
+    .red {
+      color: var(--error);
+    }
     h3 {
       font-family: var(--heading-font);
       font-size: 1.2rem;
@@ -667,12 +670,6 @@ form {
   flex-direction: column;
   gap: 15px;
   padding: 10px;
-  h1 {
-    font-family: var(--heading-font);
-    color: var(--primary-dark);
-    font-weight: 600;
-    font-size: 1.3rem;
-  }
   #container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -685,7 +682,6 @@ form {
       padding: 10px;
       font-size: 1.2rem;
       border-radius: 10px;
-      box-shadow: 3px -4px 5px 2px var(--border);
       h2 {
         font-family: var(--body-font);
         font-size: 0.9em;
@@ -772,9 +768,12 @@ form {
       gap: 10px;
       .brand {
         background-color: var(--primary-dark);
-        padding: 5px;
+        padding: 3px;
+        align-self: center;
         border-radius: 5px;
         color: var(--surface);
+        font-size: 0.85rem;
+        text-align: center;
         font-family: var(--body-font);
         span {
           background-color: inherit;
@@ -837,6 +836,7 @@ form {
   grid-template-columns: 1fr 1fr;
   font-size: 1rem;
   gap: 10px;
+  animation: bordercolor 3s ease-out infinite;
   border-bottom: 1px solid var(--border);
   .rev {
     grid-column: 1;
@@ -884,20 +884,24 @@ dialog {
 .main-container {
   display: flex;
   flex-direction: column;
+  margin-bottom: 8px;
   gap: 1rem;
   #searchBar {
-    margin: 0 auto;
+    margin: 8px auto;
     border: 1px solid var(--primary-dark);
     border-radius: 15px;
-    padding: 4px;
-    box-shadow: -3px 4px 4px;
+    width: 80vw;
+    padding: 0 10px;
   }
   #promotions {
     display: flex;
     overflow-x: auto;
     gap: 15px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .promotion {
-      width: 250px;
+      width: 70vw;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr 1fr;
@@ -957,10 +961,10 @@ dialog {
     }
     a {
       div {
-        padding: 10px;
         text-align: center;
         font-family: var(--body-font);
         color: var(--text);
+        font-size: 0.85rem;
       }
     }
     img {
@@ -977,6 +981,21 @@ dialog {
     }
   }
   .b-store,
+  .cats {
+    background-color: var(--primary-dark);
+    padding: 10px;
+    border-radius: 5px;
+    h1,
+    a {
+      background-color: transparent;
+    }
+  }
+  #category a h1 {
+    font-size: 0.95rem;
+    text-align: center;
+    font-family: var(--body-font);
+  }
+  .b-store,
   .viewedgroup,
   .cats,
   .searchedgroup,
@@ -985,15 +1004,12 @@ dialog {
     display: flex;
     justify-content: space-between;
     font-family: var(--heading-font);
-    font-size: 1.3rem;
     font-weight: 400;
     margin-bottom: 8px;
-    h1 {
-      font-size: 0.85em;
-    }
+    h1,
     a {
-      font-size: 0.85em;
-      color: var(--text);
+      font-size: 0.95rem;
+      color: var(--surface);
       margin-right: 3px;
     }
   }
@@ -1014,7 +1030,6 @@ dialog {
     .brief {
       padding: 10px;
       text-align: center;
-      width: 280px;
       border-bottom: 1px solid var(--border);
       p {
         font-family: var(--body-font);
@@ -1023,30 +1038,51 @@ dialog {
       }
     }
   }
+  .viewedgroup,
+  .searchedgroup,
+  .tpsellers,
+  .ltd {
+    background-color: var(--navy);
+    padding: 10px;
+    border-radius: 5px;
+    h1,
+    a {
+      color: var(--surface);
+      background-color: transparent;
+    }
+  }
+  .searchedgroup {
+    background-color: var(--accent);
+  }
+  .tpsellers {
+    background-color: purple;
+  }
+  #limited .ltd {
+    background-color: var(--error);
+  }
 }
-.brief h2,
-#category h1 {
+.brief h2 {
   font-family: var(--heading-font);
-  color: var(--text);
   font-weight: 500;
-}
-#category h1 {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   text-align: center;
 }
-.low {
+
+.instock.low {
   background-color: var(--primary-dark);
 }
-.not {
+.instock.not {
   background-color: var(--error);
 }
-.in {
+.instock.in {
   background-color: var(--accent);
 }
 .instock {
   background-color: var(--accent);
-  padding: 5px;
+  padding: 3px;
+  align-self: center;
   border-radius: 5px;
+  font-size: 0.85rem;
   color: var(--surface);
   font-family: var(--body-font);
   span {
@@ -1062,6 +1098,7 @@ dialog {
   input {
     border: 0;
     padding: 10px;
+    outline: none;
   }
 }
 #filter,
@@ -1071,6 +1108,36 @@ dialog {
   border: 1px solid var(--border);
   padding: 2px;
   border-radius: 10px;
+}
+.highlight {
+  color: var(--primary-dark);
+}
+.checks #addition.added {
+  opacity: 0.6;
+}
+#load {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  .a {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out infinite;
+  }
+  .b {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out 3ms infinite;
+  }
+  .c {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out 6ms infinite;
+  }
 }
 @keyframes pulse {
   0% {
@@ -1120,5 +1187,19 @@ dialog {
   100% {
     transform: translateX(0);
     color: var(--surface);
+  }
+}
+@keyframes bordercolor {
+  0% {
+    border-right: 4px solid var(--primary-dark);
+  }
+  25% {
+    border-right: 4px solid var(--accent);
+  }
+  50% {
+    border-right: 4px solid orange;
+  }
+  100% {
+    border-right: 4px solid purple;
   }
 }
