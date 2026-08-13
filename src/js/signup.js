@@ -28,6 +28,11 @@ async function init() {
     let btn = document.querySelector("#signup1");
 
     let user = storage.Get("user");
+    if(user.IsRegistered){
+       document.querySelector("#notify").innerHTML = `Account exists, login or create a new account`
+       document.querySelector("#notify").classList.add("show");
+       setTimeout(() => window.location.href = "login.html?q=log",5000)
+    }
     name.value = user.name;
     if (user.email) {
       email.value = user.email;
