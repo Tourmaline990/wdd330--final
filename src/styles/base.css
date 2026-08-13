@@ -297,6 +297,7 @@ footer {
     font-family: var(--body-font);
     color: var(--text);
     margin-bottom: 5px;
+    
   }
   #username,
   #password,
