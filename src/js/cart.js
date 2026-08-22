@@ -5,9 +5,9 @@ import Api from "./api.mjs";
 import { CartTemplate } from "./templates/cartTemplate";
 import "../styles/base.css";
 import "../styles/large.css";
-
 import { Render } from "./utility.mjs";
 import { MapTemplate } from "./utility.mjs";
+import { StageEvent } from "./utility.mjs";
 
 LoadPartials("/partials/footer.html", "footer");
 LoadPartials("/partials/head.html", "head", false);
@@ -29,61 +29,54 @@ storage.logInCountDown();
 const container = document.querySelector("#container");
 const subtotal = document.querySelector("#subtotal");
 const checkouttotal = document.querySelector("#total");
+let len =  document.querySelector("#len")
 
 async function Init() {
+
   await LoadPartials("/partials/header.html", "header", false);
+
   let cart = storage.Get("cart");
 
   if (!cart || cart.length === 0) {
-    EmptyCart();
-  } else {
+     EmptyCart();
+  } 
+  else {
     document.querySelector(".summary").classList.remove("hide");
     document.querySelector(".checks").classList.remove("hide");
     let r = await updateTotal(cart, mapCart, subtotal, checkouttotal);
-    document.querySelector("#len").textContent = cart.length;
+    len.textContent = cart.length;
     Render(r, container, "beforeend", true);
 
-    document
-      .querySelector("#container")
-      .addEventListener("click", async (event) => {
-        let attr = event.target.getAttribute("class");
-        let id = event.target
-          .closest(".cartItem")
-          .querySelector(".id").textContent;
-        if (!id) {
-          return;
-        }
+    StageEvent("container","cartItem",async(event) => await cartFn(event),true)
 
-        let c = cart.find((i) => i.p_id === Number(id));
-        if (attr === "remove") {
-          cart.splice(
-            cart.findIndex((i) => i.p_id === c.p_id),
-            1,
-          );
-          storage.set("cart", cart);
-        } else if (attr === "increase") {
-          c.qty++;
-          storage.set("cart", cart);
-          let h = await updateTotal(cart, mapCart, subtotal, checkouttotal);
-
-          Render(h, container, "beforeend", true);
-        } else if (attr === "decrease") {
-          if (c.qty === 1) {
-            let o = cart.findIndex((j) => j.p_id === c.p_id);
-            cart.splice(o, 1);
-            storage.set("cart", cart);
-            EmptyCart();
-            return;
+    async function cartFn(event){
+      let attr = event.target.getAttribute("class");
+      let id = event.target.closest(".cartItem").querySelector(".id").textContent;
+      let c = cart.find((i) => i.p_id === Number(id));
+      switch (attr) {
+        case "remove":
+           cart.splice(cart.findIndex((i) => i.p_id === c.p_id),1); 
+           break;
+        case "increase":
+           c.qty++;
+           break
+        case "decrease":
+          if(c.qty === 1){
+             let o = cart.findIndex((j) => j.p_id === c.p_id);
+             cart.splice(o, 1);
           }
           c.qty -= 1;
-          storage.set("cart", cart);
-          let h = await updateTotal(cart, mapCart, subtotal, checkouttotal);
-          Render(h, container, "beforeend", true);
+          break
         }
-      });
+        storage.set("cart", cart);
+        let h = await updateTotal(cart, mapCart, subtotal, checkouttotal);
+        Render(h, container, "beforeend", true);
+      
+    }
   }
   document.querySelector("#clearCart").addEventListener("click", () => {
     ClearCart(storage);
+    EmptyCart()
   });
 
   document.querySelector("#checkout").addEventListener("click", () => {
@@ -110,7 +103,7 @@ async function Init() {
     return t;
   }
 
-  async function updateTotal(cartToMap, fn, el1, el2) {
+  async function updateTotal(cartToMap, fn, el1, el2){
     let t = await fn(cartToMap);
     let m = MapTemplate(t, CartTemplate);
     let val = t.reduce((a, c) => a + c.price, 0);
@@ -123,18 +116,23 @@ async function Init() {
     document.querySelector(".summary").classList.add("hide");
     document.querySelector(".checks").classList.add("hide");
 
-    //
     document.querySelector("#clearCart").removeEventListener("click", () => {
       ClearCart(storage);
     });
-    container.innerHTML = `
+    emptyCartUi() 
+  }
+
+  function emptyCartUi(){
+     len.textContent = 0
+      container.innerHTML = `
         <p> No items in cart yet </p>
          <button class="view"> View Products </button>
         `;
-    document.querySelector(".view").addEventListener("click", () => {
-      window.location.href = `../index.html`;
-    });
+      document.querySelector(".view").addEventListener("click", () => {
+         window.location.href = `../index.html`;
+       });
   }
+
   document.querySelector(`#profile`).addEventListener("click", () => {
     let login = storage.Get("login");
     if (!login.isLoggedIn || login.isLoggedIn === undefined) {

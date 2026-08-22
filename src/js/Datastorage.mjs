@@ -16,11 +16,11 @@ export default class DataStorage{
      let val = localStorage.getItem(key)
       val = JSON.parse(val)
       if(status){
-         if(val === null){
-            return false
+         if(localStorage.getItem(key) !== null  && localStorage.getItem(key).length >= 0){
+              return true
          }
          else{
-          return true
+          return false
          }
       }
       return val
@@ -35,7 +35,26 @@ export default class DataStorage{
     }
     IsInit(){
       let keys = ["user","login","orderhistory","viewed","searched","cart","wishlist"]
-      return keys.every(k => !! this.Get(k,true))
+      let cleared_keys = keys.filter(k => this.Get(k,true) === false)
+      if(cleared_keys.length <= 2){
+         cleared_keys.forEach( c => {
+           let v;
+          if(c === "user" || c === "login"){
+                v = {}
+          }
+          else if(c === "locationRedirect"){
+              v = ""
+          }
+          else{
+            v = []
+          }
+         this.set(c,v)})
+         return true
+      }
+      else{
+        return false
+      }
+      // return keys.every(k => !! this.Get(k,true))
     }
     logInCountDown(){
       let login = this.Get("login")
