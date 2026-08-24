@@ -1,8 +1,8 @@
 import { LoadPartials } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import { GetUrlParams } from "./utility.mjs";
-import { EmptyString } from "./utility.mjs";
-import { LogUserIn } from "./login";
+import { EmptyString,profileListener } from "./utility.mjs";
+import { LogUserIn } from "./utility.mjs";
 import "../styles/base.css";
 import "../styles/large.css";
 
@@ -20,14 +20,15 @@ storage.logInCountDown();
 async function init() {
   await LoadPartials("/partials/header.html", "header", false, true);
   let q = GetUrlParams("q");
-  if (q === "log") {
-    await LoadPartials("/partials/signup1.html", "container", true, true);
+  if(!q === "fp"|| !q === "log"){
+     window.location.href = "../index.html"
+  }
+  await LoadPartials("/partials/signup1.html", "container", true, true);
     let name = document.querySelector("#name");
     let email = document.querySelector("#email");
-
     let btn = document.querySelector("#signup1");
-
     let user = storage.Get("user");
+  if (q === "log") {
     if(user.IsRegistered){
        document.querySelector("#notify").innerHTML = `Account exists, login or create a new account`
        document.querySelector("#notify").classList.add("show");
@@ -37,16 +38,16 @@ async function init() {
     if (user.email) {
       email.value = user.email;
     }
-
-    name.addEventListener("click", () => {
-      if (!EmptyString(name.value)) {
-        return;
+  }
+  name.addEventListener("click", () => {
+    if (!EmptyString(name.value)) {
+       return;
       }
       user.name = name.value;
       storage.set("user", user);
     });
 
-    btn.addEventListener("click", async () => {
+  btn.addEventListener("click", async () => {
       if (!EmptyString(email.value)) {
         email.classList.add("negative");
         return;
@@ -55,6 +56,7 @@ async function init() {
       storage.set("user", user);
 
       await LoadPartials("/partials/signup2.html", "container", true, true);
+      
       let btn2 = document.querySelector("#signup2");
       btn2.addEventListener("click", () => {
         let p = document.querySelector("#setPassword");
@@ -91,15 +93,8 @@ async function init() {
         }
       });
     });
-  }
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+  
+  
+  profileListener(storage)
 }
 init();

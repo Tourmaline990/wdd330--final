@@ -1,7 +1,7 @@
 // imports
-import { LoadPartials } from "./utility.mjs";
+import { LoadPartials, profileListener } from "./utility.mjs";
 import { BriefProductDisplay } from "../js/templates/productTemplate";
-import { GetUrlParams } from "./utility.mjs";
+import { GetUrlParams} from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
 import { ArrayPrep } from "./utility.mjs";
@@ -156,14 +156,6 @@ async function Init() {
     storage.set("viewed", v);
   });
 
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+  profileListener(storage)
 }
 Init();

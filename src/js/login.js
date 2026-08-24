@@ -1,8 +1,8 @@
 // imports
-import { LoadPartials } from "./utility.mjs";
+import { LoadPartials} from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import { GetUrlParams } from "./utility.mjs";
-import { EmptyString } from "./utility.mjs";
+import { EmptyString,LogUserIn } from "./utility.mjs";
 import "../styles/base.css";
 import "../styles/large.css";
 
@@ -23,8 +23,8 @@ async function Init() {
   let q = GetUrlParams("q");
   const user = storage.Get("user");
   if (q === "log") {
-    await LoadPartials("/partials/login1.html", "container", true, true);
-
+    await LoadPartials("/partials/login1.html", "container",true);
+    document.querySelector("#container").insertAdjacentHTML("beforeend",`<a href="signup.html?q=fp" class="hashyper"id="fp">Forgot password?</a>`)
     const notify = document.querySelector("#notify");
     const userName = document.querySelector("#username");
     let nextBtn = document.querySelector("#log1");
@@ -82,15 +82,5 @@ async function Init() {
     });
   }
 }
-export function LogUserIn(store) {
-  const date = new Date();
-  let loginTime = date.getTime();
-  let expiresAt = new Date(date);
-  expiresAt = expiresAt.setHours(date.getHours() + 24);
-  store.set("login", {
-    isLoggedIn: true,
-    loginTime: loginTime,
-    expiresAt: expiresAt,
-  });
-}
+
 Init();

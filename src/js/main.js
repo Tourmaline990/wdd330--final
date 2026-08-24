@@ -1,5 +1,5 @@
 // Imports
-import { LoadPartials, Render } from "./utility.mjs";
+import { LoadPartials, Render,profileListener } from "./utility.mjs";
 import FetchJson from "../js/fetch-json.mjs";
 import Api from "./api.mjs";
 import DataStorage from "./Datastorage.mjs";
@@ -46,17 +46,8 @@ async function Init() {
   }
   storage.logInCountDown();
 
-  // user profile
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
-
+   // user profile
+   profileListener(storage)
   //
   let allProducts;
   try {

@@ -1,7 +1,7 @@
 // imports
 import { LoadPartials } from "./utility.mjs";
 import FetchJson from "./fetch-json.mjs";
-import { MapTemplate } from "./utility.mjs";
+import { MapTemplate,profileListener } from "./utility.mjs";
 import { searchTemplate } from "./templates/cartTemplate";
 import { Render } from "./utility.mjs";
 import { SelectOptionTemplate } from "./templates/cartTemplate";
@@ -241,15 +241,7 @@ async function Init() {
     window.location.href = "../success/index.html";
   });
 
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+  profileListener(storage)
 }
 Init();
 
