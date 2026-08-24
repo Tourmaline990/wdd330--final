@@ -3,10 +3,12 @@ import { LoadPartials } from "./utility.mjs";
 import { GetUrlParams } from "./utility.mjs";
 import Api from "./api.mjs";
 import { ProductDetailsTemplate } from "../js/templates/productTemplate";
-import { Render } from "./utility.mjs";
+import { Render,profileListener } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
+import { added,cartDuplicate } from "./templates/modalTemplate";
 import "../styles/base.css";
 import "../styles/large.css";
+
 
 async function Init() {
   // partials display
@@ -32,9 +34,10 @@ async function Init() {
   const add = document.querySelector("#addition");
   const modal = document.querySelector("#modal");
   const closemodal = document.querySelector("#closeBtn");
+  const modalContent = document.querySelector(".modalContent");
 
-  //url params
 
+  // url params
   let query = GetUrlParams("q");
   if (!Number.isNaN(Number(query))) {
     query = Number(query);
@@ -54,29 +57,19 @@ async function Init() {
     if (cart.length === 0 || !cart) {
       cart.push({ p_id: Number(id), qty: 1 });
       storage.set("cart", cart);
-      modal.insertAdjacentHTML(
-        "afterbegin",
-        `<p> Product added successfully </p>`,
-      );
+      modalContent.innerHTML = ``
       modal.showModal();
     } else {
       let exists = cart.find((i) => i.p_id === id);
 
       if (exists || exists !== undefined) {
         let a = await dummyjson.SearchById(id);
-
-        modal.insertAdjacentHTML(
-          "afterbegin",
-          `<p> <span class="highlight">${a.title}</span> already in cart,add or increase quantity</p>`,
-        );
+        modalContent.insertAdjacentHTML("afterbegin",cartDuplicate(a));
         modal.showModal();
       } else {
         cart.push({ p_id: Number(id), qty: 1 });
         storage.set("cart", cart);
-        modal.insertAdjacentHTML(
-          "afterbegin",
-          `<p> Product added successfully </p>`,
-        );
+        modalContent.insertAdjacentHTML("afterbegin",added); 
         modal.showModal();
       }
       add.classList.add("added");
@@ -84,18 +77,11 @@ async function Init() {
   });
 
   closemodal.addEventListener("click", () => {
+    modalContent.innerHTML = ``
     modal.close();
   });
-
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+   profileListener(storage)
+  
 
   const imagecontainer = document.querySelector(".imageContainer");
   const thumb = document.querySelector(".thumb");

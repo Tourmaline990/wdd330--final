@@ -103,3 +103,25 @@ export function StageEvent(parent, expectedTargetId, callback, targetIsClass = f
     }
   });
 }
+export function profileListener(storage){
+  document.querySelector(`#profile`).addEventListener("click", () => {
+    let login = storage.Get("login");
+    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
+      storage.set("locationRedirect", "../profile/index.html");
+      window.location.href = "../user/login.html?q=log";
+    } else {
+      window.location.href = "../profile/index.html";
+    }
+  });
+}
+export function LogUserIn(store) {
+  const date = new Date();
+  let loginTime = date.getTime();
+  let expiresAt = new Date(date);
+  expiresAt = expiresAt.setHours(date.getHours() + 24);
+  store.set("login", {
+    isLoggedIn: true,
+    loginTime: loginTime,
+    expiresAt: expiresAt,
+  });
+}

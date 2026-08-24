@@ -17,21 +17,16 @@ async function Init() {
 
   const avatar = document.querySelector("#avatar");
   const username = document.querySelector("#username");
+  
+
   const user = storage.Get("user");
   if (Object.keys(user).length !== 0) {
     let name = user.name;
     username.innerHTML = `${name}`;
     avatar.innerHTML = `${name.slice(0, 2).toUpperCase()}`;
   }
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+
+
 }
 
 Init();

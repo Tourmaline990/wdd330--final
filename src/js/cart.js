@@ -1,5 +1,5 @@
 // imports
-import { LoadPartials } from "./utility.mjs";
+import { LoadPartials,profileListener } from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import Api from "./api.mjs";
 import { CartTemplate } from "./templates/cartTemplate";
@@ -79,15 +79,7 @@ async function Init() {
     EmptyCart()
   });
 
-  document.querySelector("#checkout").addEventListener("click", () => {
-    let loggedIn = storage.Get("login");
-    if (!loggedIn.isLoggedIn || loggedIn.isLoggedIn === undefined) {
-      window.location.href = `../user/login.html?q=log`;
-      storage.set("locationRedirect", "../checkout/index.html");
-    } else {
-      window.location.href = `../checkout/index.html`;
-    }
-  });
+  profileListener(storage)
 
   function ClearCart(store) {
     cart = [];

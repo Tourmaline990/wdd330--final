@@ -1,4 +1,4 @@
-import { LoadPartials } from "./utility.mjs";
+import { LoadPartials ,profileListener} from "./utility.mjs";
 import DataStorage from "./Datastorage.mjs";
 import "../styles/base.css";
 import "../styles/large.css";
@@ -16,15 +16,7 @@ async function Init() {
     window.location.href = "../index.html";
   });
 
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+   profileListener(storage)
 }
 
 Init();
