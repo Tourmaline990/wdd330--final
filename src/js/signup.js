@@ -20,7 +20,7 @@ storage.logInCountDown();
 async function init() { 
   await LoadPartials("/partials/header.html", "header", false, true);
   let q = GetUrlParams("q");
-  if(q !== "fp"|| q !== "log"){
+  if(q !== "fp" && q !== "log"){
      window.location.href = "../index.html"
   }
   await LoadPartials("/partials/signup1.html", "container", true, true);
