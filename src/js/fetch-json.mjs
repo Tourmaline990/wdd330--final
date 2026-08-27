@@ -33,7 +33,12 @@ export default class FetchJson{
       return Randomize(mapped);
    }
    async RenderData(element,position,template,limit=0){
-    const val = await this.randomizeData(template,limit);
-    Render(val,element,position)
+   try {
+      const val = await this.randomizeData(template,limit);
+      Render(val,element,position)
+   } catch (error) {
+     console.log(error) 
+     element.innerHTML = `<div class="err-wrapper"> <p> An error occured </p> </div>`; 
+   }
    }
 }

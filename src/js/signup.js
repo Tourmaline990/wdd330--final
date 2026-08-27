@@ -17,17 +17,20 @@ if (!storage.IsInit()) {
 }
 storage.logInCountDown();
 
-async function init() {
+async function init() { 
   await LoadPartials("/partials/header.html", "header", false, true);
   let q = GetUrlParams("q");
-  if(!q === "fp"|| !q === "log"){
+  if(q !== "fp"|| q !== "log"){
      window.location.href = "../index.html"
   }
   await LoadPartials("/partials/signup1.html", "container", true, true);
+
     let name = document.querySelector("#name");
     let email = document.querySelector("#email");
     let btn = document.querySelector("#signup1");
+
     let user = storage.Get("user");
+
   if (q === "log") {
     if(user.IsRegistered){
        document.querySelector("#notify").innerHTML = `Account exists, login or create a new account`
@@ -39,13 +42,6 @@ async function init() {
       email.value = user.email;
     }
   }
-  name.addEventListener("click", () => {
-    if (!EmptyString(name.value)) {
-       return;
-      }
-      user.name = name.value;
-      storage.set("user", user);
-    });
 
   btn.addEventListener("click", async () => {
       if (!EmptyString(email.value)) {
@@ -54,8 +50,15 @@ async function init() {
       }
       user.email = email.value;
       storage.set("user", user);
-
-      await LoadPartials("/partials/signup2.html", "container", true, true);
+      
+      if (!EmptyString(name.value)) {
+       return;
+      }
+       user.name = name.value;
+      storage.set("user", user);
+    });
+    
+    await LoadPartials("/partials/signup2.html", "container", true, true);
       
       let btn2 = document.querySelector("#signup2");
       btn2.addEventListener("click", () => {
@@ -92,7 +95,7 @@ async function init() {
           }, 5000);
         }
       });
-    });
+    
   
   
   profileListener(storage)

@@ -29,6 +29,7 @@ storage.logInCountDown();
 const container = document.querySelector("#container");
 const subtotal = document.querySelector("#subtotal");
 const checkouttotal = document.querySelector("#total");
+const checkout = document.querySelector("#checkout")
 let len =  document.querySelector("#len")
 
 async function Init() {
@@ -48,7 +49,7 @@ async function Init() {
     Render(r, container, "beforeend", true);
 
     StageEvent("container","cartItem",async(event) => await cartFn(event),true)
-
+    checkout.addEventListener("click",()=> window.location.href = '../checkout/index.html' )
     async function cartFn(event){
       let attr = event.target.getAttribute("class");
       let id = event.target.closest(".cartItem").querySelector(".id").textContent;
@@ -79,7 +80,7 @@ async function Init() {
     EmptyCart()
   });
 
-  profileListener(storage)
+ 
 
   function ClearCart(store) {
     cart = [];
@@ -125,14 +126,6 @@ async function Init() {
        });
   }
 
-  document.querySelector(`#profile`).addEventListener("click", () => {
-    let login = storage.Get("login");
-    if (!login.isLoggedIn || login.isLoggedIn === undefined) {
-      storage.set("locationRedirect", "../profile/index.html");
-      window.location.href = "../user/login.html?q=log";
-    } else {
-      window.location.href = "../profile/index.html";
-    }
-  });
+  profileListener(storage)
 }
 Init();

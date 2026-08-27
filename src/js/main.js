@@ -40,6 +40,7 @@ async function Init() {
   const dummyjson = new Api(dummyJsonUrl);
   const promotionjson = new FetchJson(promotionPath);
   const storage = new DataStorage();
+  const brandJson = new FetchJson(brandPath);
 
   if (!storage.IsInit()) {
     storage.init();
@@ -48,36 +49,30 @@ async function Init() {
 
    // user profile
    profileListener(storage)
-  //
-  let allProducts;
-  try {
-    allProducts = await dummyjson.GetAllProducts();
-  } catch (error) {
-    console.log(error);
+
+  let allProducts =  await dummyjson.GetAllProducts();
+  if(!allProducts){
+    storage.set("locationRedirect",`../index.html`)
+    window.location.href = "../error/error.html";
+    return
   }
-  const brandJson = new FetchJson(brandPath);
 
   // search bar
-  searchIcon.addEventListener("click", () => {
-    SearchBar();
-  });
-  document
-    .querySelector("#inputParent")
-    .addEventListener("keydown", (event) => {
+  searchIcon.addEventListener("click", () => SearchBar());
+
+  document.querySelector("#inputParent").addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         SearchBar();
       }
     });
 
-  document
-    .querySelector("#clearInput")
-    .addEventListener("click", () => (searchInput.value = ""));
+  document.querySelector("#clearInput").addEventListener("click", () => (searchInput.value = ""));
 
   // Promotion
   await promotionjson.RenderData(promotion, "afterbegin", PromotionTemplate);
 
   // categories
-  await promotionjson.RenderData(category, "beforeend", CategoryTemplate, 8);
+  await promotionjson.RenderData(category, "beforeend", CategoryTemplate, 15);
 
   // last viewed display
   const viewed = storage.Get("viewed");
@@ -153,7 +148,7 @@ async function Init() {
   }
 
   // brands store
-  brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 10);
+  brandJson.RenderData(brandsStore, "beforeend", BrandTemplate, 17);
 
   // add viewed
   // lastSearched,lastviewed,topsellers,limitedstocks
@@ -177,11 +172,7 @@ async function Init() {
     }
     try {
       let prod = await dummyjson.SearchByProductName(searchInput.value);
-      if (
-        prod.products !== undefined &&
-        prod.products !== null &&
-        prod.products.length !== 0
-      ) {
+      if ( prod.products !== undefined && prod.products !== null && prod.products.length !== 0) {
         let f = storage.Get("searched");
         let check = f.find((a) => a === searchInput.value);
         if (!check || check === undefined || check === null) {

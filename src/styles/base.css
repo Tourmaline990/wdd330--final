@@ -108,7 +108,7 @@ main {
     color: var(--primary-dark);
   }
 }
-.summary {
+.summary{
   padding: 0 10px;
   align-items: center;
   border: 1px solid var(--border);
@@ -528,7 +528,7 @@ form {
 }
 #submit,
 #hist,
-#home {
+#home{
   width: 50%;
   margin: 0 auto;
   padding: 12px;
@@ -896,6 +896,7 @@ dialog {
     border-radius: 15px;
     width: 80vw;
     padding: 0 10px;
+    font-size: 1rem;
   }
   #promotions {
     display: flex;
@@ -1143,7 +1144,47 @@ dialog {
     animation: pulse 1s ease-in-out 6ms infinite;
   }
 }
+#ctn-error{
+  width: 60vw;
+ margin: 15px auto;
+ text-align: center;
+ font-family: var(--heading-font);
+ font-size: 1rem;
 
+ img{
+   margin: 0 auto;
+ }
+ h1{
+  font-weight: 500;
+  color: var(--error);
+  font-size: .95em;
+ }
+ p{
+  font-family: var(--body-font);
+ }
+ button{
+  border: 0;
+  background-color: var(--primary-dark);
+  color: var(--surface);
+  width: 40%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 5px;
+ }
+}
+.err-wrapper{
+  padding: 8px;
+  margin: 0 auto;
+  border: 1px solid var(--error);
+  width: 80vw;
+  border-radius: 10px;
+  background-color: rgba(200 0 0 /30%);
+  p{
+    background-color: transparent;
+    text-align: center;
+    font-family: var(--body-font);
+  }
+}
 @keyframes pulse {
   0% {
     transform: scale(0.8);

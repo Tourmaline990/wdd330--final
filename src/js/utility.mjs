@@ -92,9 +92,9 @@ export function StageEvent(parent, expectedTargetId, callback, targetIsClass = f
       let targetItem = event.target.closest(`.${expectedTargetId}`);
       if (targetItem) {
         callback(event);
-        
       }
     });
+    return
   }
   document.querySelector(`#${parent}`).addEventListener("click", (event) => {
     let targetItem = event.target.closest(`#${expectedTargetId}`);

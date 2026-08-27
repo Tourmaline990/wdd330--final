@@ -15,6 +15,7 @@ export function CategoryTemplate(obj) {
    </a>
    `;
 }
+
 function splitArray(arr) {
   let result = "";
   for (let i = 0; i < arr.length; i++) {
@@ -22,3 +23,10 @@ function splitArray(arr) {
   }
   return result;
 }
+
+// list
+// el in dom
+// add to a compounder list
+// b4 el in dom
+// find in compound list
+// if true, switch,else use
