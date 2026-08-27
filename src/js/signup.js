@@ -23,6 +23,7 @@ async function init() {
   if(q !== "fp" && q !== "log"){
      window.location.href = "../index.html"
   }
+ 
   await LoadPartials("/partials/signup1.html", "container", true, true);
 
     let name = document.querySelector("#name");
@@ -31,15 +32,11 @@ async function init() {
 
     let user = storage.Get("user");
 
-  if (q === "log") {
+  if (q === "log"){
     if(user.IsRegistered){
        document.querySelector("#notify").innerHTML = `Account exists, login or create a new account`
        document.querySelector("#notify").classList.add("show");
        setTimeout(() => window.location.href = "login.html?q=log",5000)
-    }
-    name.value = user.name;
-    if (user.email) {
-      email.value = user.email;
     }
   }
 
@@ -56,7 +53,7 @@ async function init() {
       }
        user.name = name.value;
       storage.set("user", user);
-    });
+    
     
     await LoadPartials("/partials/signup2.html", "container", true, true);
       
@@ -96,7 +93,7 @@ async function init() {
         }
       });
     
-  
+  });
   
   profileListener(storage)
 }
