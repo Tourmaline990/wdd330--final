@@ -11,6 +11,7 @@ import "../styles/large.css";
 
 
 async function Init() {
+
   // partials display
   LoadPartials("/partials/footer.html", "footer");
   LoadPartials("/partials/head.html", "head", false);
@@ -39,32 +40,37 @@ async function Init() {
 
   // url params
   let query = GetUrlParams("q");
+  let productInfo;
   if (!Number.isNaN(Number(query))) {
     query = Number(query);
-    let product = await dummyjson.SearchById(query);
-    highlight.innerHTML = product.title;
-    product = ProductDetailsTemplate(product);
-    Render(product, container, "beforeend", true, false);
+    try {
+      productInfo = await dummyjson.SearchById(query);
+      highlight.innerHTML = productInfo.title;
+      let product = ProductDetailsTemplate(productInfo);
+      Render(product, container, "beforeend", true, false);
+    } catch (error) {
+       storage.set("locationRedirect",`../productPage/index.html?q=${query}`)
+       window.location.href = "../error/error.html";
+    }
   } else {
+    storage.set("locationRedirect",`../index.html`)
     window.location.href = "../error/error.html";
   }
 
   // after content loads
   let id = Number(document.querySelector(".holdsId").textContent);
   let cart = storage.Get("cart");
-
   add.addEventListener("click", async () => {
-    if (cart.length === 0 || !cart) {
+    if (!cart || cart.length === 0 ) {
       cart.push({ p_id: Number(id), qty: 1 });
       storage.set("cart", cart);
-      modalContent.innerHTML = ``
+      modalContent.insertAdjacentHTML("afterbegin",added); 
       modal.showModal();
     } else {
       let exists = cart.find((i) => i.p_id === id);
 
-      if (exists || exists !== undefined) {
-        let a = await dummyjson.SearchById(id);
-        modalContent.insertAdjacentHTML("afterbegin",cartDuplicate(a));
+      if (exists !== undefined || exists) {
+        modalContent.insertAdjacentHTML("afterbegin",cartDuplicate(productInfo));
         modal.showModal();
       } else {
         cart.push({ p_id: Number(id), qty: 1 });

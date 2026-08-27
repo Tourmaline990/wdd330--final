@@ -13,8 +13,7 @@ export default class Api{
         }
         return await data.json(); 
     } catch (error) {
-        console.log(error.message)
-       
+        console.log(error.message) 
     }   
    }
    async GetAllProducts(){
@@ -27,7 +26,6 @@ export default class Api{
         return await data.json(); 
     } catch (error) {
         console.log(error.message)
-       
     }   
    }
    async SearchByProductName(productName){
@@ -69,12 +67,16 @@ export default class Api{
     } 
    }
    async GetBrands(){
+    try {
       const data = await fetch(`${this.url}products?limit=0&select=brand`)
       if(!data.ok){
         throw new Error(`Error! ${await data.text()}`)
       }
       const response = await data.json();
       return fil(response.products)
+    } catch (error) {
+      console.log(error.message)
+    } 
    } 
    async GetProductsById(idArr,isString = false){
     if(isString){

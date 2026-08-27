@@ -12,6 +12,7 @@ import { CategoryTemplate } from "./templates/promotion";
 import "../styles/base.css";
 import "../styles/large.css";
 
+
 async function Init() {
   // partials display
   LoadPartials("/partials/footer.html", "footer");
@@ -29,17 +30,28 @@ async function Init() {
   // initialization
   const storage = new DataStorage();
   const dummyjson = new Api(dummyJsonUrl);
-
-  let allProducts;
-  let brands;
-  try {
-    allProducts = await dummyjson.GetAllProducts();
-    brands = await dummyjson.GetBrands();
-  } catch (error) {
-    console.log(error);
-  }
-
   const promotionjson = new FetchJson(promotionPath);
+
+  if (!storage.IsInit()) {
+    storage.init();
+  }
+  storage.logInCountDown();
+
+  const query = GetUrlParams("q", true).join();
+
+  let allProducts = await dummyjson.GetAllProducts();
+  if(!allProducts){
+    storage.set("locationRedirect",`../category/index.html?q=${query}`)
+    window.location.href = "../error/error.html";
+    return
+  }
+  
+  let brands = await dummyjson.GetBrands();
+  if(!brands){
+      storage.set("locationRedirect",`../category/index.html?q=${query}`)
+      window.location.href = "../error/error.html";
+      return
+  }
 
   const headings = [
     "Curated Just For You",
@@ -62,13 +74,7 @@ async function Init() {
     "limitedStocks",
   ];
 
-  if (!storage.IsInit()) {
-    storage.init();
-  }
-  storage.logInCountDown();
-
   //
-  const query = GetUrlParams("q", true).join();
   let queryVal = query.split(",");
   queryVal = queryVal.filter((q) => q !== "");
 
@@ -152,10 +158,14 @@ async function Init() {
     let El = domEl.querySelector(".holdsId");
     let Eldata = El.textContent;
     let v = storage.Get("viewed");
-    v.push(Eldata);
-    storage.set("viewed", v);
+    let f = v.find( i => i === Eldata)
+    if(!f){
+      v.push(Eldata);
+       storage.set("viewed", v);
+    }
+       
   });
-
+    
   profileListener(storage)
 }
 Init();
