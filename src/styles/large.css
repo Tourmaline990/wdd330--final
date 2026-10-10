@@ -21,6 +21,15 @@
     max-width: 80vw;
     margin: 0 auto;
   }
+  header{
+     padding: 1.2rem 8px;
+  }
+  #container.l,
+#container.s{
+  margin: 0 auto;
+  gap: 1rem;
+  
+}
   .main-container #searchBar {
     width: 60%;
   }
