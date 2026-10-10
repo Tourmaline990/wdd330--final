@@ -39,7 +39,7 @@ async function init() {
        setTimeout(() => window.location.href = "login.html?q=log",5000)
     }
   }
-
+  
   btn.addEventListener("click", async () => {
       if (!EmptyString(email.value)) {
         email.classList.add("negative");
